@@ -119,7 +119,7 @@ public class LoginTest extends BaseTest {
                     logWriter.logMessage("   ⚠ Sesión activa detectada, haciendo logout primero...");
                     System.out.println("⚠ Sesión activa encontrada, cerrando...");
                     loginPage.logout();
-                    Thread.sleep(2000); // Espera mayor después de logout
+                    Thread.sleep(3000); // Espera de 3 segundos para que cookies se borren completamente
                 }
                 
                 // Navegar a la página de login
@@ -141,11 +141,11 @@ public class LoginTest extends BaseTest {
                         // Hacer logout para la próxima prueba
                         System.out.println("[Post-Login] Haciendo logout...");
                         loginPage.logout();
-                        Thread.sleep(2500); // Espera mayor para asegurar logout completo
+                        Thread.sleep(3000); // Espera de 3 segundos para que cookies se borren completamente
                         
                         // Verificar que logout fue exitoso
                         System.out.println("[Post-Logout] Verificando que sesión está cerrada...");
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                         
                     } else {
                         String errorMsg = loginPage.getErrorMessage();

@@ -140,39 +140,53 @@ public class LoginPage extends BasePage {
 
     /**
      * Realiza logout navegando directamente a la URL de logout
+     * y borrando todas las cookies para forzar cierre de sesión
      */
     public void logout() {
         try {
-            System.out.println("   → Cerrando sesión...");
+            System.out.println("   → Cerrando sesión (con limpieza de cookies)...");
             
-            // Navegar directamente a la URL de logout (más confiable)
+            // Navegar directamente a la URL de logout
             navigateTo("https://opencart.abstracta.us/index.php?route=account/logout");
-            waitHelper.customWait(2000); // Espera mayor para asegurar logout
+            waitHelper.customWait(1500);
             
-            // Navegar a home para limpiar cualquier estado residual
-            navigateTo("https://opencart.abstracta.us/");
+            // BORRAR TODAS LAS COOKIES para forzar cierre de sesión
+            driver.manage().deleteAllCookies();
+            System.out.println("   → Cookies eliminadas");
             waitHelper.customWait(1000);
             
-            // Verificar que realmente se hizo logout verificando que NO esté el link My Account
+            // Navegar a home para refrescar el estado
+            navigateTo("https://opencart.abstracta.us/");
+            waitHelper.customWait(1500);
+            
+            // Verificar que realmente se hizo logout
             try {
+                // Refrescar la página para asegurar que el estado se actualice
+                driver.navigate().refresh();
+                waitHelper.customWait(1000);
+                
                 boolean stillLoggedIn = isElementDisplayed(myAccountLink);
                 if (!stillLoggedIn) {
                     System.out.println("✓ Logout exitoso - sesión cerrada correctamente");
                 } else {
-                    System.out.println("⚠ ADVERTENCIA: My Account aún visible después de logout");
+                    System.out.println("⚠ ADVERTENCIA: My Account aún visible - forzando refresh adicional");
+                    driver.navigate().refresh();
+                    waitHelper.customWait(1000);
                 }
             } catch (Exception e) {
-                // Si hay excepción al buscar myAccountLink, probablemente no está (logout exitoso)
+                // Si hay excepción, probablemente no está (logout exitoso)
                 System.out.println("✓ Logout exitoso - My Account no encontrado");
             }
             
         } catch (Exception e) {
             System.out.println("⚠ Error al hacer logout: " + e.getMessage());
-            // Intentar navegación directa a home como respaldo
+            // Respaldo: borrar cookies y navegar a home
             try {
+                driver.manage().deleteAllCookies();
                 navigateTo("https://opencart.abstracta.us/");
+                driver.navigate().refresh();
                 waitHelper.customWait(1500);
-                System.out.println("   → Navegado a home como respaldo");
+                System.out.println("   → Respaldo ejecutado - cookies borradas y página refrescada");
             } catch (Exception ex) {
                 System.out.println("⚠ Respaldo de logout también falló");
             }
@@ -185,7 +199,10 @@ public class LoginPage extends BasePage {
      */
     public boolean isUserLoggedIn() {
         try {
-            waitHelper.customWait(500);
+            // Refrescar la página para obtener el estado actualizado del DOM
+            driver.navigate().refresh();
+            waitHelper.customWait(1000);
+            
             boolean hasLink = isElementDisplayed(myAccountLink);
             if (hasLink) {
                 System.out.println("   [Debug] My Account link detectado - usuario logueado");
