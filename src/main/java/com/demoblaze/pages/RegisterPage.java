@@ -88,8 +88,12 @@ public class RegisterPage extends BasePage {
      */
     public boolean isSuccessMessageDisplayed() {
         try {
-            waitHelper.waitForElementToBeVisible(successMessage);
-            return true;
+            waitHelper.customWait(1000);
+            boolean displayed = isElementDisplayed(successMessage);
+            if (displayed) {
+                System.out.println("✓ Mensaje de éxito detectado en registro");
+            }
+            return displayed;
         } catch (Exception e) {
             return false;
         }
@@ -100,7 +104,9 @@ public class RegisterPage extends BasePage {
      */
     public String getSuccessMessage() {
         if (isSuccessMessageDisplayed()) {
-            return getText(successMessage);
+            String msg = getText(successMessage);
+            System.out.println("   Mensaje: " + msg);
+            return msg;
         }
         return "";
     }
@@ -110,7 +116,12 @@ public class RegisterPage extends BasePage {
      */
     public boolean isErrorMessageDisplayed() {
         try {
-            return isElementDisplayed(errorMessage);
+            waitHelper.customWait(1000);
+            boolean displayed = isElementDisplayed(errorMessage);
+            if (displayed) {
+                System.out.println("⚠ Mensaje de error detectado en registro");
+            }
+            return displayed;
         } catch (Exception e) {
             return false;
         }
@@ -121,7 +132,9 @@ public class RegisterPage extends BasePage {
      */
     public String getErrorMessage() {
         if (isErrorMessageDisplayed()) {
-            return getText(errorMessage);
+            String msg = getText(errorMessage);
+            System.out.println("   Error: " + msg);
+            return msg;
         }
         return "";
     }
@@ -147,17 +160,40 @@ public class RegisterPage extends BasePage {
      */
     public boolean registerUser(String firstName, String lastName, String email, 
                                   String telephone, String password) {
-        fillRegistrationForm(firstName, lastName, email, telephone, password);
-        acceptPrivacyPolicy();
-        clickContinue();
-        
-        boolean success = isSuccessMessageDisplayed();
-        
-        // Si el registro fue exitoso, hacer clic en Continue para volver
-        if (success) {
-            clickContinueAfterSuccess();
+        try {
+            System.out.println("   → Llenando formulario de registro...");
+            fillRegistrationForm(firstName, lastName, email, telephone, password);
+            
+            System.out.println("   → Aceptando política de privacidad...");
+            acceptPrivacyPolicy();
+            
+            System.out.println("   → Enviando formulario...");
+            clickContinue();
+            
+            // Esperar respuesta del servidor
+            waitHelper.customWait(1500);
+            
+            // Verificar si fue exitoso o hubo error
+            boolean success = isSuccessMessageDisplayed();
+            boolean hasError = isErrorMessageDisplayed();
+            
+            if (success) {
+                System.out.println("✓ Registro completado exitosamente");
+                // Hacer clic en Continue para volver a la página principal
+                clickContinueAfterSuccess();
+                return true;
+            } else if (hasError) {
+                System.out.println("⚠ Registro falló - se detectó mensaje de error");
+                return false;
+            } else {
+                System.out.println("⚠ Registro - sin mensaje de éxito ni error");
+                return false;
+            }
+            
+        } catch (Exception e) {
+            System.out.println("✗ Excepción durante el registro: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-        
-        return success;
     }
 }

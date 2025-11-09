@@ -148,10 +148,16 @@ public class LoginTest extends BaseTest {
                         logWriter.logLogin(email, false, "Falló como esperado: " + errorMsg);
                         softAssert.assertTrue(true, "Login falló correctamente: " + email);
                     } else {
-                        logWriter.logLogin(email, true, "Se esperaba fallo pero fue exitoso");
+                        // Login exitoso cuando debería fallar
+                        String currentUrl = loginPage.getCurrentUrl();
+                        logWriter.logLogin(email, true, "⚠ PROBLEMA: Se esperaba fallo pero fue exitoso. URL: " + currentUrl);
+                        System.out.println("⚠ PROBLEMA: Login exitoso para credencial inválida: " + email);
+                        System.out.println("   URL actual: " + currentUrl);
+                        System.out.println("   My Account visible: " + loginPage.isUserLoggedIn());
+                        
                         softAssert.fail("Login debería fallar para: " + email);
                         
-                        // Hacer logout
+                        // Hacer logout de emergencia
                         loginPage.logout();
                         Thread.sleep(1500);
                     }

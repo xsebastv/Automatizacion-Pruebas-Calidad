@@ -77,12 +77,42 @@ public class LoginPage extends BasePage {
 
     /**
      * Verifica si el login fue exitoso
+     * Login exitoso significa:
+     * - Aparece el link "My Account" 
+     * - URL contiene "account/account" (página de cuenta)
+     * - NO hay mensaje de error
      */
     public boolean isLoginSuccessful() {
         try {
-            waitHelper.customWait(1000);
-            return isElementDisplayed(myAccountLink) || getCurrentUrl().contains("account/account");
+            waitHelper.customWait(1500);
+            
+            // Primero verificar si hay mensaje de error (login fallido)
+            if (isErrorMessageDisplayed()) {
+                System.out.println("⚠ Login fallido - mensaje de error detectado");
+                return false;
+            }
+            
+            // Verificar si está en página de login (no cambió de página = error)
+            String currentUrl = getCurrentUrl();
+            if (currentUrl.contains("account/login")) {
+                System.out.println("⚠ Login fallido - sigue en página de login");
+                return false;
+            }
+            
+            // Verificar éxito: link My Account visible Y página account/account
+            boolean hasMyAccountLink = isElementDisplayed(myAccountLink);
+            boolean isAccountPage = currentUrl.contains("account/account");
+            
+            if (hasMyAccountLink && isAccountPage) {
+                System.out.println("✓ Login exitoso - My Account visible y en página correcta");
+                return true;
+            }
+            
+            System.out.println("⚠ Login fallido - no cumple criterios de éxito");
+            return false;
+            
         } catch (Exception e) {
+            System.out.println("⚠ Login fallido - excepción: " + e.getMessage());
             return false;
         }
     }
@@ -115,8 +145,15 @@ public class LoginPage extends BasePage {
         try {
             // Navegar directamente a la URL de logout (más confiable)
             navigateTo("https://opencart.abstracta.us/index.php?route=account/logout");
-            waitHelper.customWait(1000);
-            System.out.println("✓ Logout exitoso");
+            waitHelper.customWait(1500);
+            
+            // Verificar que realmente se hizo logout
+            boolean loggedOut = !isUserLoggedIn();
+            if (loggedOut) {
+                System.out.println("✓ Logout exitoso - sesión cerrada");
+            } else {
+                System.out.println("⚠ Logout - sesión podría seguir activa");
+            }
         } catch (Exception e) {
             System.out.println("⚠ Error al hacer logout: " + e.getMessage());
             // Intentar método alternativo
@@ -126,7 +163,7 @@ public class LoginPage extends BasePage {
                     waitHelper.customWait(500);
                     if (isElementDisplayed(logoutLink)) {
                         clickElement(logoutLink);
-                        waitHelper.customWait(1000);
+                        waitHelper.customWait(1500);
                     }
                 }
             } catch (Exception ex) {

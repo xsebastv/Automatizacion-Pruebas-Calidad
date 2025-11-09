@@ -55,3 +55,12 @@ Fecha: 09/11/2025 00:42:18
 09/11/2025 00:43:45 - 
 --- Probando login: test@test.com ---
 09/11/2025 00:43:45 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 00:43:52
+  Email: test@test.com
+  Estado: EXITOSO
+  Mensaje: Se esperaba fallo pero fue exitoso
+
+09/11/2025 00:43:55 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 00:43:55 - Ruta del log: src\main\resources\logs\TestLog_20251109_004218.txt
+
+========== FIN DEL REPORTE ==========
