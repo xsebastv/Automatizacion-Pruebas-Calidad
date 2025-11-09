@@ -68,47 +68,36 @@ public class BaseTest {
     }
 
     /**
-     * Genera el archivo Excel con datos de prueba si no existe o está corrupto
+     * Genera SIEMPRE el archivo Excel con datos de prueba al inicio de la suite,
+     * para mantener sincronía entre Registro y Login en la misma ejecución.
      */
     private void generateExcelIfNotExists() {
         String filePath = "src/main/resources/testData.xlsx";
         File excelFile = new File(filePath);
-        
-        boolean needsGeneration = false;
-        
-        // Verificar si el archivo no existe
-        if (!excelFile.exists()) {
+
+        // Si existe, lo eliminamos para evitar datos viejos/desincronizados
+        if (excelFile.exists()) {
             System.out.println("========================================");
-            System.out.println("Archivo Excel no encontrado. Generando testData.xlsx...");
+            System.out.println("Eliminando testData.xlsx previo para regenerar datos coherentes...");
             System.out.println("========================================");
-            needsGeneration = true;
-        } 
-        // Verificar si el archivo existe pero está vacío o corrupto
-        else if (excelFile.length() < 1024) {
-            System.out.println("========================================");
-            System.out.println("Archivo Excel corrupto o vacío. Regenerando testData.xlsx...");
-            System.out.println("========================================");
-            excelFile.delete(); // Eliminar archivo corrupto
-            needsGeneration = true;
-        } 
-        else {
-            System.out.println("========================================");
-            System.out.println("✓ Archivo Excel válido encontrado: " + filePath);
+            boolean deleted = excelFile.delete();
+            if (!deleted) {
+                System.out.println("No se pudo eliminar el Excel previo (puede estar abierto). Intenta cerrarlo si falla la lectura.");
+            }
+        }
+
+        System.out.println("========================================");
+        System.out.println("Generando testData.xlsx para esta ejecución...");
+        System.out.println("========================================");
+        ExcelDataGenerator.main(new String[]{});
+
+        // Verificar que se generó correctamente
+        if (excelFile.exists() && excelFile.length() > 1024) {
+            System.out.println("✓ Archivo Excel generado exitosamente");
             System.out.println("   Tamaño: " + excelFile.length() + " bytes");
             System.out.println("========================================");
-        }
-        
-        // Generar el archivo si es necesario
-        if (needsGeneration) {
-            ExcelDataGenerator.main(new String[]{});
-            
-            // Verificar que se generó correctamente
-            if (excelFile.exists() && excelFile.length() > 1024) {
-                System.out.println("✓ Archivo Excel generado exitosamente");
-                System.out.println("   Tamaño: " + excelFile.length() + " bytes");
-            } else {
-                System.err.println("✗ ERROR: No se pudo generar el archivo Excel correctamente");
-            }
+        } else {
+            System.err.println("✗ ERROR: No se pudo generar el archivo Excel correctamente");
         }
     }
 

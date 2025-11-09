@@ -6,6 +6,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Clase para crear el archivo Excel con datos de prueba
@@ -14,6 +16,9 @@ public class ExcelDataGenerator {
 
     public static void main(String[] args) {
         String filePath = "src/main/resources/testData.xlsx";
+
+        // Timestamp único para esta generación (mantener coherencia entre hojas)
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         
         // Crear el directorio si no existe
         File file = new File(filePath);
@@ -26,10 +31,10 @@ public class ExcelDataGenerator {
         try (Workbook workbook = new XSSFWorkbook()) {
             
             // Crear hoja de UsuariosRegistro
-            createUsuariosRegistroSheet(workbook);
+            createUsuariosRegistroSheet(workbook, timestamp);
             
             // Crear hoja de LoginData
-            createLoginDataSheet(workbook);
+            createLoginDataSheet(workbook, timestamp);
             
             // Crear hoja de ProductosBusqueda
             createProductosBusquedaSheet(workbook);
@@ -47,7 +52,7 @@ public class ExcelDataGenerator {
         }
     }
 
-    private static void createUsuariosRegistroSheet(Workbook workbook) {
+    private static void createUsuariosRegistroSheet(Workbook workbook, String timestamp) {
         Sheet sheet = workbook.createSheet("UsuariosRegistro");
         
         // Crear estilo para el encabezado
@@ -65,11 +70,11 @@ public class ExcelDataGenerator {
         
         // Agregar datos de ejemplo
         Object[][] data = {
-            {"Juan", "Pérez", "juan.perez@test.com", "3001234567", "Test123!"},
-            {"María", "González", "maria.gonzalez@test.com", "3007654321", "Test456!"},
-            {"Carlos", "Rodríguez", "carlos.rodriguez@test.com", "3009876543", "Test789!"},
-            {"Ana", "Martínez", "ana.martinez@test.com", "3005551234", "Test321!"},
-            {"Luis", "García", "luis.garcia@test.com", "3008887777", "Test654!"}
+            {"Juan", "Pérez", "juan.perez+" + timestamp + "@test.com", "3001234567", "Test123!"},
+            {"María", "González", "maria.gonzalez+" + timestamp + "@test.com", "3007654321", "Test456!"},
+            {"Carlos", "Rodríguez", "carlos.rodriguez+" + timestamp + "@test.com", "3009876543", "Test789!"},
+            {"Ana", "Martínez", "ana.martinez+" + timestamp + "@test.com", "3005551234", "Test321!"},
+            {"Luis", "García", "luis.garcia+" + timestamp + "@test.com", "3008887777", "Test654!"}
         };
         
         for (int i = 0; i < data.length; i++) {
@@ -85,7 +90,7 @@ public class ExcelDataGenerator {
         }
     }
 
-    private static void createLoginDataSheet(Workbook workbook) {
+    private static void createLoginDataSheet(Workbook workbook, String timestamp) {
         Sheet sheet = workbook.createSheet("LoginData");
         
         CellStyle headerStyle = createHeaderStyle(workbook);
@@ -102,8 +107,8 @@ public class ExcelDataGenerator {
         
         // Agregar datos de ejemplo
         Object[][] data = {
-            {"juan.perez@test.com", "Test123!", "Success"},
-            {"maria.gonzalez@test.com", "Test456!", "Success"},
+            {"juan.perez+" + timestamp + "@test.com", "Test123!", "Success"},
+            {"maria.gonzalez+" + timestamp + "@test.com", "Test456!", "Success"},
             {"usuario.invalido@test.com", "password_invalido", "Fail"},
             {"", "", "Fail"},
             {"test@test.com", "wrongpassword", "Fail"}

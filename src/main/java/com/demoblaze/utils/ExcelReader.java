@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,52 +29,68 @@ public class ExcelReader {
      */
     public List<Map<String, String>> readSheet(String sheetName) {
         List<Map<String, String>> data = new ArrayList<>();
-        
-        try (FileInputStream fis = new FileInputStream(filePath);
-             Workbook workbook = new XSSFWorkbook(fis)) {
-            
-            Sheet sheet = workbook.getSheet(sheetName);
-            
-            if (sheet == null) {
-                System.err.println("La hoja '" + sheetName + "' no existe en el archivo.");
-                return data;
-            }
-            
-            // Obtener nombres de columnas de la primera fila
-            Row headerRow = sheet.getRow(0);
-            if (headerRow == null) {
-                System.err.println("La hoja está vacía.");
-                return data;
-            }
-            
-            List<String> headers = new ArrayList<>();
-            for (Cell cell : headerRow) {
-                headers.add(getCellValueAsString(cell));
-            }
-            
-            // Leer datos de las filas subsecuentes
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
-                if (row == null) continue;
-                
-                Map<String, String> rowData = new HashMap<>();
-                for (int j = 0; j < headers.size(); j++) {
-                    Cell cell = row.getCell(j);
-                    String value = (cell != null) ? getCellValueAsString(cell) : "";
-                    rowData.put(headers.get(j), value);
+
+        // Intentos de lectura para manejar bloqueo del archivo por otro proceso (p.ej., Excel abierto)
+        int maxAttempts = 3;
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try (FileInputStream fis = new FileInputStream(filePath);
+                 Workbook workbook = new XSSFWorkbook(fis)) {
+
+                Sheet sheet = workbook.getSheet(sheetName);
+
+                if (sheet == null) {
+                    System.err.println("La hoja '" + sheetName + "' no existe en el archivo.");
+                    return data;
                 }
-                
-                // Solo agregar filas que no estén completamente vacías
-                if (!isRowEmpty(rowData)) {
-                    data.add(rowData);
+
+                // Obtener nombres de columnas de la primera fila
+                Row headerRow = sheet.getRow(0);
+                if (headerRow == null) {
+                    System.err.println("La hoja está vacía.");
+                    return data;
+                }
+
+                List<String> headers = new ArrayList<>();
+                for (Cell cell : headerRow) {
+                    headers.add(getCellValueAsString(cell));
+                }
+
+                // Leer datos de las filas subsecuentes
+                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                    Row row = sheet.getRow(i);
+                    if (row == null) continue;
+
+                    Map<String, String> rowData = new HashMap<>();
+                    for (int j = 0; j < headers.size(); j++) {
+                        Cell cell = row.getCell(j);
+                        String value = (cell != null) ? getCellValueAsString(cell) : "";
+                        rowData.put(headers.get(j), value);
+                    }
+
+                    // Solo agregar filas que no estén completamente vacías
+                    if (!isRowEmpty(rowData)) {
+                        data.add(rowData);
+                    }
+                }
+
+                // Lectura exitosa, salimos del bucle
+                return data;
+
+            } catch (IOException e) {
+                boolean locked = (e instanceof FileNotFoundException) ||
+                        (e.getMessage() != null && e.getMessage().toLowerCase().contains("siendo utilizado"));
+                System.err.println("Error al leer el archivo Excel (intento " + attempt + "/" + maxAttempts + "): " + e.getMessage());
+                if (locked && attempt < maxAttempts) {
+                    System.err.println("Parece que el archivo está en uso. Cierra Excel si lo tienes abierto e intentaremos de nuevo...");
+                    try { Thread.sleep(600); } catch (InterruptedException ie) { /* ignore */ }
+                    continue;
+                } else {
+                    e.printStackTrace();
+                    break;
                 }
             }
-            
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo Excel: " + e.getMessage());
-            e.printStackTrace();
         }
-        
+
         return data;
     }
 

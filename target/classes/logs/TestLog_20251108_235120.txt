@@ -1,0 +1,34 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 08/11/2025 23:51:20
+========================================
+
+08/11/2025 23:51:20 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+08/11/2025 23:51:20 - Navegador: Chrome
+08/11/2025 23:51:20 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE BÚSQUEDA Y AGREGADO AL CARRITO ==========
+
+08/11/2025 23:51:20 - Productos a buscar y agregar: 5
+08/11/2025 23:51:20 - 
+--- Procesando producto: HP LP3065 ---
+08/11/2025 23:51:30 - Producto encontrado: HP LP3065
+[PRODUCTO AGREGADO] 08/11/2025 23:51:35
+  Categoría: Desktops
+  Subcategoría: PC
+  Producto: HP LP3065
+  Cantidad: 1
+  Estado: EXITOSO
+
+08/11/2025 23:51:36 - 
+--- Procesando producto: MacBook ---
+08/11/2025 23:51:42 - Producto encontrado: MacBook
+[PRODUCTO AGREGADO] 08/11/2025 23:52:07
+  Categoría: Laptops & Notebooks
+  Producto: MacBook
+  Cantidad: 2
+  Estado: FALLIDO
+
+08/11/2025 23:52:08 - 
+--- Procesando producto: Apple Cinema 30 ---
+08/11/2025 23:52:15 - Producto encontrado: Apple Cinema 30
