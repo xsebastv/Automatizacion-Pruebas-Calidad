@@ -1,0 +1,66 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 09/11/2025 01:24:58
+========================================
+
+09/11/2025 01:24:58 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 01:24:58 - Navegador: Chrome
+09/11/2025 01:24:58 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE INICIO DE SESIÓN ==========
+
+09/11/2025 01:24:59 - 
+=== REGISTRANDO USUARIOS PARA PRUEBAS DE LOGIN ===
+09/11/2025 01:25:00 - 
+--- Registrando usuario: juan.perez+20251109_012452@test.com ---
+09/11/2025 01:25:34 - ⚠ Usuario ya existe o error en registro: juan.perez+20251109_012452@test.com
+09/11/2025 01:25:35 - 
+--- Registrando usuario: maria.gonzalez+20251109_012452@test.com ---
+09/11/2025 01:25:56 - ⚠ Usuario ya existe o error en registro: maria.gonzalez+20251109_012452@test.com
+09/11/2025 01:25:57 - 
+=== INICIANDO PRUEBAS DE LOGIN ===
+09/11/2025 01:25:58 - Credenciales a probar: 5
+09/11/2025 01:25:58 - 
+--- Probando login: juan.perez+20251109_012452@test.com ---
+09/11/2025 01:26:00 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 01:26:28
+  Email: juan.perez+20251109_012452@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Login exitoso como esperado
+
+09/11/2025 01:26:41 - 
+--- Probando login: maria.gonzalez+20251109_012452@test.com ---
+09/11/2025 01:26:42 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 01:26:59
+  Email: maria.gonzalez+20251109_012452@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Se esperaba éxito pero falló: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 01:27:00 - 
+--- Probando login: usuario.invalido@test.com ---
+09/11/2025 01:27:01 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 01:27:19
+  Email: usuario.invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 01:27:19 - 
+--- Probando login:  ---
+09/11/2025 01:27:21 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 01:27:37
+  Email: 
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 01:27:38 - 
+--- Probando login: test@test.com ---
+09/11/2025 01:27:39 -    ⚠ Sesión activa detectada, haciendo logout primero...
+[LOGIN] 09/11/2025 01:27:56
+  Email: test@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 01:27:56 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 01:27:56 - Ruta del log: src\main\resources\logs\TestLog_20251109_012458.txt
+
+========== FIN DEL REPORTE ==========

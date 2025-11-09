@@ -20,13 +20,12 @@ public class LoginTest extends BaseTest {
     private LoginPage loginPage;
     private RegisterPage registerPage;
     private ExcelReader excelReader;
-    private String excelPath;
 
     @BeforeClass
     public void setupTest() {
         loginPage = new LoginPage(driver);
         registerPage = new RegisterPage(driver);
-        excelPath = "src/main/resources/testData.xlsx";
+        String excelPath = "src/main/resources/testData.xlsx";
         excelReader = new ExcelReader(excelPath);
         
         logWriter.logSection("PRUEBA DE INICIO DE SESIÓN");

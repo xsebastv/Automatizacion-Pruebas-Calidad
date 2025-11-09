@@ -78,7 +78,7 @@ public class LoginPage extends BasePage {
     /**
      * Verifica si el login fue exitoso
      * Login exitoso significa:
-     * - Aparece el link "My Account" 
+     * - Aparece el link "Logout" en el menú (usuario logueado)
      * - URL contiene "account/account" (página de cuenta)
      * - NO hay mensaje de error
      */
@@ -99,16 +99,17 @@ public class LoginPage extends BasePage {
                 return false;
             }
             
-            // Verificar éxito: link My Account visible Y página account/account
-            boolean hasMyAccountLink = isElementDisplayed(myAccountLink);
+            // CAMBIO CRÍTICO: Verificar el link "Logout" en lugar de "My Account"
+            // porque "My Account" siempre está visible
+            boolean hasLogout = isElementDisplayed(logoutLink);
             boolean isAccountPage = currentUrl.contains("account/account");
             
-            if (hasMyAccountLink && isAccountPage) {
-                System.out.println("✓ Login exitoso - My Account visible y en página correcta");
+            if (hasLogout && isAccountPage) {
+                System.out.println("✓ Login exitoso - Link 'Logout' visible y en página de cuenta");
                 return true;
             }
             
-            System.out.println("⚠ Login fallido - no cumple criterios de éxito");
+            System.out.println("⚠ Login fallido - no cumple criterios de éxito (Logout: " + hasLogout + ", AccountPage: " + isAccountPage + ")");
             return false;
             
         } catch (Exception e) {
@@ -159,23 +160,22 @@ public class LoginPage extends BasePage {
             navigateTo("https://opencart.abstracta.us/");
             waitHelper.customWait(1500);
             
-            // Verificar que realmente se hizo logout
+            // Verificar que realmente se hizo logout verificando el link "Logout"
             try {
                 // Refrescar la página para asegurar que el estado se actualice
                 driver.navigate().refresh();
                 waitHelper.customWait(1000);
                 
-                boolean stillLoggedIn = isElementDisplayed(myAccountLink);
+                // Verificar que NO esté el link "Logout" (= sesión cerrada)
+                boolean stillLoggedIn = isElementDisplayed(logoutLink);
                 if (!stillLoggedIn) {
-                    System.out.println("✓ Logout exitoso - sesión cerrada correctamente");
+                    System.out.println("✓ Logout exitoso - link 'Logout' desapareció correctamente");
                 } else {
-                    System.out.println("⚠ ADVERTENCIA: My Account aún visible - forzando refresh adicional");
-                    driver.navigate().refresh();
-                    waitHelper.customWait(1000);
+                    System.out.println("⚠ ADVERTENCIA: Link 'Logout' aún visible - sesión podría seguir activa");
                 }
             } catch (Exception e) {
-                // Si hay excepción, probablemente no está (logout exitoso)
-                System.out.println("✓ Logout exitoso - My Account no encontrado");
+                // Si hay excepción al buscar el link, probablemente no está (logout exitoso)
+                System.out.println("✓ Logout exitoso - link 'Logout' no encontrado");
             }
             
         } catch (Exception e) {
@@ -195,7 +195,8 @@ public class LoginPage extends BasePage {
     
     /**
      * Verifica si el usuario está logueado
-     * Un usuario está logueado si el link "My Account" está visible en el menú superior
+     * Un usuario está logueado si el link "Logout" está visible en el menú desplegable
+     * (el link "My Account" siempre está visible, logueado o no)
      */
     public boolean isUserLoggedIn() {
         try {
@@ -203,15 +204,17 @@ public class LoginPage extends BasePage {
             driver.navigate().refresh();
             waitHelper.customWait(1000);
             
-            boolean hasLink = isElementDisplayed(myAccountLink);
-            if (hasLink) {
-                System.out.println("   [Debug] My Account link detectado - usuario logueado");
+            // CAMBIO CRÍTICO: Verificar si existe el link "Logout" en lugar de "My Account"
+            // porque "My Account" siempre está visible
+            boolean hasLogout = isElementDisplayed(logoutLink);
+            if (hasLogout) {
+                System.out.println("   [Debug] Link 'Logout' detectado - usuario SÍ está logueado");
             } else {
-                System.out.println("   [Debug] My Account link NO detectado - usuario NO logueado");
+                System.out.println("   [Debug] Link 'Logout' NO detectado - usuario NO está logueado");
             }
-            return hasLink;
+            return hasLogout;
         } catch (Exception e) {
-            System.out.println("   [Debug] Excepción al verificar login - asumiendo NO logueado");
+            System.out.println("   [Debug] Excepción al verificar login - asumiendo NO logueado: " + e.getMessage());
             return false;
         }
     }

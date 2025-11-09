@@ -200,7 +200,8 @@ public class RegisterPage extends BasePage {
                 clickContinueAfterSuccess();
                 return true;
             } else if (hasError) {
-                System.out.println("⚠ Registro falló - se detectó mensaje de error");
+                String errorMsg = getErrorMessage();
+                System.out.println("⚠ Registro falló - Error: " + errorMsg);
                 return false;
             } else {
                 System.out.println("⚠ Registro - sin mensaje de éxito ni error");
