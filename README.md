@@ -1,26 +1,19 @@
 # 🛒 Proyecto de Automatización - OpenCart
 
-Automatización de pruebas para la tienda OpenCart utilizando Selenium WebDriver, TestNG y el patrón Page Object Model (POM).
+Automatización de pruebas para la tienda demo de OpenCart usando Selenium WebDriver, TestNG y Page Object Model (POM). Este README concentra ahora TODA la información esencial (se eliminaron archivos Markdown redundantes por limpieza).
 
 ---
 
-## 🚀 INICIO RÁPIDO
+## 🚀 Inicio Rápido (IntelliJ IDEA)
 
-### ¿Primera vez aquí? Empieza por:
+1. Abrir el proyecto en IntelliJ IDEA.
+2. Verificar Java y Maven (IntelliJ ya trae soporte integrado):
+   - Project SDK: Java 17
+3. Ejecutar la suite completa:
+   - Abrir `testng.xml` → Click derecho → Run.
+4. Revisar resultados: carpeta `src/main/resources/logs/` y `target/surefire-reports/`.
 
-1. **📚 [INDICE.md](INDICE.md)** - Navegación completa del proyecto
-2. **⚡ [INICIO_RAPIDO.md](INICIO_RAPIDO.md)** - Guía de 5 pasos
-3. **✅ [CHECKLIST.md](CHECKLIST.md)** - Lista de verificación completa
-
-### ¿Quieres ejecutar rápido?
-
-```bash
-# Paso 1: Generar Excel
-Doble clic en: generar-excel.bat
-
-# Paso 2: Ejecutar pruebas
-Doble clic en: ejecutar-pruebas.bat
-```
+El archivo Excel de datos (`testData.xlsx`) se REGENERA automáticamente al inicio de cada ejecución (dentro de `BaseTest`). No necesitas pasos manuales previos.
 
 ---
 
@@ -28,11 +21,13 @@ Doble clic en: ejecutar-pruebas.bat
 
 - [Tecnologías](#tecnologías)
 - [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalación](#instalación)
-- [Configuración](#configuración)
+- [Instalación mínima](#instalación-mínima)
+- [Excel y Datos de Prueba](#excel-y-datos-de-prueba)
 - [Ejecución de Pruebas](#ejecución-de-pruebas)
-- [Resultados](#resultados)
-- [Documentación](#documentación)
+- [Casos Cubiertos](#casos-de-prueba)
+- [Logs y Reportes](#logs-y-reportes)
+- [Troubleshooting](#troubleshooting)
+- [Notas Importantes](#notas-importantes)
 
 ## 🚀 Tecnologías
 
@@ -79,63 +74,55 @@ STORE_2511/
 └── README.md
 ```
 
-## ⚙️ Instalación
+## ⚙️ Instalación Mínima
 
-### Prerequisitos
+Requisitos:
+- Java 17 (el SDK configurado en IntelliJ)
+- Chrome instalado (WebDriverManager descarga el driver automáticamente)
 
-1. **Java 17 o superior**
-   ```bash
-   java -version
-   ```
-
-2. **Maven**
-   ```bash
-   mvn -version
-   ```
-
-3. **Chrome Browser** (última versión)
-
-### Pasos de Instalación
-
-1. **Clonar o descargar el proyecto**
-
-2. **Instalar dependencias**
-   ```bash
-   mvn clean install
-   ```
-
-## 🔧 Configuración
-
-### 1. Generar el Archivo Excel con Datos de Prueba
-
-Ejecutar el generador de datos de Excel:
-
-```bash
-mvn exec:java -Dexec.mainClass="com.demoblaze.utils.ExcelDataGenerator"
+Desde terminal (opcional):
+```powershell
+mvn -version
+java -version
 ```
+Descarga de dependencias se hace sola al abrir el proyecto o al correr la primera prueba.
 
-Esto creará el archivo `src/main/resources/testData.xlsx` con tres hojas:
+## 📊 Excel y Datos de Prueba
+
+El archivo `testData.xlsx` se crea automáticamente al iniciar la suite. Se fuerza regeneración cada vez para garantizar:
+- Correos únicos para registro (timestamp en el email)
+- Coincidencia entre usuarios registrados y filas de Login marcadas como `Success`
+
+Hojas generadas:
 
 #### 📊 UsuariosRegistro
-| First Name | Last Name | E-Mail | Telephone | Password |
-|------------|-----------|--------|-----------|----------|
-| Juan | Pérez | juan.perez@test.com | 3001234567 | Test123! |
-| María | González | maria.gonzalez@test.com | 3007654321 | Test456! |
-| ... | ... | ... | ... | ... |
+| First Name | Last Name | E-Mail (único) | Telephone | Password |
+|------------|-----------|----------------|-----------|----------|
+| Juan | Pérez | juan.perez+YYYYMMDD_HHMMSS@test.com | 3001234567 | Test123! |
+| María | González | maria.gonzalez+YYYYMMDD_HHMMSS@test.com | 3007654321 | Test456! |
+| Carlos | Rodríguez | carlos.rodriguez+TIMESTAMP@test.com | 3009876543 | Test789! |
+| Ana | Martínez | ana.martinez+TIMESTAMP@test.com | 3005551234 | Test321! |
+| Luis | García | luis.garcia+TIMESTAMP@test.com | 3008887777 | Test654! |
 
 #### 📊 LoginData
 | Email | Password | Expected Result |
 |-------|----------|-----------------|
-| juan.perez@test.com | Test123! | Success |
+| juan.perez+TIMESTAMP@test.com | Test123! | Success |
+| maria.gonzalez+TIMESTAMP@test.com | Test456! | Success |
 | usuario.invalido@test.com | password_invalido | Fail |
-| ... | ... | ... |
+| (vacío) | (vacío) | Fail |
+| test@test.com | wrongpassword | Fail |
 
 #### 📊 ProductosBusqueda
 | Categoria | SubCategoria | Producto | Cantidad |
 |-----------|--------------|----------|----------|
 | Desktops | PC | HP LP3065 | 1 |
-| Laptops & Notebooks | | MacBook | 2 |
-| ... | ... | ... | ... |
+| Laptops & Notebooks | (vacío) | MacBook | 2 |
+| Components | Monitors | Apple Cinema 30 | 1 |
+| (vacío) | (vacío) | iPhone | 1 |
+| Cameras | (vacío) | Canon EOS 5D | 1 |
+
+Los productos con opciones (ej. Canon EOS 5D: color; HP LP3065: fecha) se rellenan automáticamente en el código (`ProductDetailPage`) sin necesidad de columnas extra.
 
 ### 2. Personalizar Datos (Opcional)
 
@@ -154,7 +141,7 @@ mvn test
 ```
 
 ### Ejecutar con TestNG Suite
-```bash
+```powershell
 mvn test -DsuiteXmlFile=testng.xml
 ```
 
@@ -165,7 +152,7 @@ mvn test -Dtest=LoginTest
 mvn test -Dtest=BusquedaYCarritoTest
 ```
 
-## 📊 Resultados
+## 📊 Logs y Reportes
 
 ### Reportes de TestNG
 
@@ -266,35 +253,24 @@ src/main/resources/logs/TestLog_YYYYMMDD_HHMMSS.txt
 - Fácil de actualizar sin modificar código
 - Múltiples conjuntos de datos
 
-## 🔍 Solución de Problemas
+## 🔍 Troubleshooting
 
 ### Error: "No se encuentra el archivo Excel"
-```bash
-# Generar el archivo Excel
-mvn exec:java -Dexec.mainClass="com.demoblaze.utils.ExcelDataGenerator"
-```
+Se regenera solo al inicio. Si persiste, verifica permisos y carpeta `src/main/resources/`.
 
 ### Error: "WebDriver no encontrado"
-- WebDriverManager descarga automáticamente el driver
-- Asegúrate de tener conexión a internet
-- Chrome debe estar instalado
+WebDriverManager maneja todo. Verifica conexión y que Chrome esté instalado.
 
-### Los tests fallan por timeout
-- Verificar conexión a internet
-- El sitio https://opencart.abstracta.us/ debe estar disponible
-- Aumentar los timeouts en WaitHelper si es necesario
+### Tests fallan por timeout
+Sitio lento o cortes. Ajustar en `WaitHelper` o reintentar.
 
 ### Problemas con Maven
-```bash
-# Limpiar y recompilar
+```powershell
 mvn clean install -U
 ```
 
 ## 📚 Documentación Adicional
-
-- **ESTRATEGIA_AUTOMATIZACION.md**: Documento completo con la estrategia de automatización
-- **JavaDoc**: Comentarios en el código fuente
-- **Reportes TestNG**: target/surefire-reports/
+Se ha mantenido únicamente este README y la estrategia completa en `ESTRATEGIA_AUTOMATIZACION.md` para consulta extendida.
 
 ## 👥 Equipo
 
@@ -308,16 +284,12 @@ Proyecto educativo - Universidad
 
 ## 🎓 Notas Importantes
 
-1. **Primer Registro**: Los emails deben ser únicos. Si ya existe un usuario registrado, cambia el email en el Excel.
-
-2. **Login**: Asegúrate de que los usuarios en LoginData estén previamente registrados si el Expected Result es "Success".
-
-3. **Productos**: Los nombres de productos en el Excel deben coincidir exactamente con los del sitio OpenCart.
-
-4. **Logs**: Revisa los logs después de cada ejecución en `src/main/resources/logs/` para detalles de la ejecución.
-
-5. **Reportes**: Los reportes HTML de TestNG proporcionan información visual clara de los resultados.
+1. Registro y Login sincronizados por regeneración automática del Excel.
+2. Emails generados con timestamp evitando duplicados en ejecuciones consecutivas.
+3. Productos con opciones se completan automáticamente (no ampliar Excel).
+4. Logs detallados para evidencia académica.
+5. Reportes TestNG en `target/surefire-reports/`.
 
 ---
 
-**¡Disfruta automatizando! 🚀**
+**¡Listo para ejecutar y documentar! 🚀**
