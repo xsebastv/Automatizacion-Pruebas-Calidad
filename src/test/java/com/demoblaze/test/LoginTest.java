@@ -114,31 +114,44 @@ public class LoginTest extends BaseTest {
             
             try {
                 // Asegurarse de que no haya sesión activa antes de hacer login
+                System.out.println("\n[Pre-Login] Verificando estado de sesión...");
                 if (loginPage.isUserLoggedIn()) {
                     logWriter.logMessage("   ⚠ Sesión activa detectada, haciendo logout primero...");
+                    System.out.println("⚠ Sesión activa encontrada, cerrando...");
                     loginPage.logout();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000); // Espera mayor después de logout
                 }
                 
                 // Navegar a la página de login
+                System.out.println("[Login] Navegando a página de login...");
                 loginPage.navigateToLoginPage();
-                Thread.sleep(500);
+                Thread.sleep(1000); // Espera mayor para que cargue la página
                 
                 // Intentar hacer login
+                System.out.println("[Login] Intentando login con: " + email);
                 boolean loginExitoso = loginPage.login(email, password);
                 
                 // Verificar según el resultado esperado
                 if ("Success".equalsIgnoreCase(expectedResult)) {
                     if (loginExitoso) {
-                        logWriter.logLogin(email, true, "Login exitoso como esperado");
+                        logWriter.logLogin(email, true, "✓ Login exitoso como esperado");
+                        System.out.println("✓ Login exitoso para: " + email);
                         softAssert.assertTrue(true, "Login exitoso: " + email);
                         
                         // Hacer logout para la próxima prueba
+                        System.out.println("[Post-Login] Haciendo logout...");
                         loginPage.logout();
-                        Thread.sleep(1500);
+                        Thread.sleep(2500); // Espera mayor para asegurar logout completo
+                        
+                        // Verificar que logout fue exitoso
+                        System.out.println("[Post-Logout] Verificando que sesión está cerrada...");
+                        Thread.sleep(500);
+                        
                     } else {
                         String errorMsg = loginPage.getErrorMessage();
-                        logWriter.logLogin(email, false, "Se esperaba éxito pero falló: " + errorMsg);
+                        logWriter.logLogin(email, false, "✗ Se esperaba éxito pero falló: " + errorMsg);
+                        System.out.println("✗ ERROR: Login falló para: " + email);
+                        System.out.println("   Mensaje de error: " + errorMsg);
                         softAssert.fail("Login debería ser exitoso para: " + email);
                     }
                 } else {

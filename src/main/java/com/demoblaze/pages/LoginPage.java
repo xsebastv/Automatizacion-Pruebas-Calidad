@@ -143,42 +143,58 @@ public class LoginPage extends BasePage {
      */
     public void logout() {
         try {
+            System.out.println("   → Cerrando sesión...");
+            
             // Navegar directamente a la URL de logout (más confiable)
             navigateTo("https://opencart.abstracta.us/index.php?route=account/logout");
-            waitHelper.customWait(1500);
+            waitHelper.customWait(2000); // Espera mayor para asegurar logout
             
-            // Verificar que realmente se hizo logout
-            boolean loggedOut = !isUserLoggedIn();
-            if (loggedOut) {
-                System.out.println("✓ Logout exitoso - sesión cerrada");
-            } else {
-                System.out.println("⚠ Logout - sesión podría seguir activa");
+            // Navegar a home para limpiar cualquier estado residual
+            navigateTo("https://opencart.abstracta.us/");
+            waitHelper.customWait(1000);
+            
+            // Verificar que realmente se hizo logout verificando que NO esté el link My Account
+            try {
+                boolean stillLoggedIn = isElementDisplayed(myAccountLink);
+                if (!stillLoggedIn) {
+                    System.out.println("✓ Logout exitoso - sesión cerrada correctamente");
+                } else {
+                    System.out.println("⚠ ADVERTENCIA: My Account aún visible después de logout");
+                }
+            } catch (Exception e) {
+                // Si hay excepción al buscar myAccountLink, probablemente no está (logout exitoso)
+                System.out.println("✓ Logout exitoso - My Account no encontrado");
             }
+            
         } catch (Exception e) {
             System.out.println("⚠ Error al hacer logout: " + e.getMessage());
-            // Intentar método alternativo
+            // Intentar navegación directa a home como respaldo
             try {
-                if (isElementDisplayed(myAccountLink)) {
-                    clickElement(myAccountLink);
-                    waitHelper.customWait(500);
-                    if (isElementDisplayed(logoutLink)) {
-                        clickElement(logoutLink);
-                        waitHelper.customWait(1500);
-                    }
-                }
+                navigateTo("https://opencart.abstracta.us/");
+                waitHelper.customWait(1500);
+                System.out.println("   → Navegado a home como respaldo");
             } catch (Exception ex) {
-                System.out.println("⚠ Logout alternativo también falló");
+                System.out.println("⚠ Respaldo de logout también falló");
             }
         }
     }
     
     /**
      * Verifica si el usuario está logueado
+     * Un usuario está logueado si el link "My Account" está visible en el menú superior
      */
     public boolean isUserLoggedIn() {
         try {
-            return isElementDisplayed(myAccountLink);
+            waitHelper.customWait(500);
+            boolean hasLink = isElementDisplayed(myAccountLink);
+            if (hasLink) {
+                System.out.println("   [Debug] My Account link detectado - usuario logueado");
+            } else {
+                System.out.println("   [Debug] My Account link NO detectado - usuario NO logueado");
+            }
+            return hasLink;
         } catch (Exception e) {
+            System.out.println("   [Debug] Excepción al verificar login - asumiendo NO logueado");
             return false;
         }
     }

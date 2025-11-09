@@ -141,17 +141,34 @@ public class RegisterPage extends BasePage {
 
     /**
      * Hace clic en el botón Continue después del mensaje de éxito
+     * Este botón aparece en la página de confirmación después del registro
      */
     public void clickContinueAfterSuccess() {
         try {
-            waitHelper.customWait(1000);
+            System.out.println("   → Buscando botón Continue en página de confirmación...");
+            waitHelper.customWait(2000); // Espera mayor para que cargue la página
+            
+            // Intentar esperar explícitamente por el botón
+            waitHelper.waitForElementToBeClickable(continueButtonAfterSuccess);
+            
             if (isElementDisplayed(continueButtonAfterSuccess)) {
+                System.out.println("   → Haciendo clic en Continue...");
                 clickElement(continueButtonAfterSuccess);
-                waitHelper.customWait(1000);
-                System.out.println("✓ Clic en botón Continue después del registro exitoso");
+                waitHelper.customWait(1500);
+                System.out.println("✓ Clic exitoso en botón Continue - volviendo a home");
+            } else {
+                System.out.println("⚠ Botón Continue no visible");
             }
         } catch (Exception e) {
-            System.out.println("⚠ No se encontró botón Continue después del éxito (puede ser normal si ya salió)");
+            System.out.println("⚠ Error al buscar botón Continue: " + e.getMessage());
+            // Intentar con URL directa como respaldo
+            try {
+                System.out.println("   → Intentando navegación directa a home...");
+                navigateTo("https://opencart.abstracta.us/");
+                waitHelper.customWait(1000);
+            } catch (Exception ex) {
+                System.out.println("⚠ Navegación directa también falló");
+            }
         }
     }
     
