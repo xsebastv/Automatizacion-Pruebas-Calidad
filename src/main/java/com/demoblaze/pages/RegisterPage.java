@@ -9,38 +9,38 @@ import org.openqa.selenium.support.FindBy;
  */
 public class RegisterPage extends BasePage {
 
-    // Localizadores usando @FindBy
-    @FindBy(css = "input[name='firstname']")
+    // Localizadores - Combinando name (único), ID y XPath (flexible)
+    @FindBy(name = "firstname") // name es único y estable
     private WebElement firstNameInput;
 
-    @FindBy(css = "input[name='lastname']")
+    @FindBy(name = "lastname") // name es único y estable
     private WebElement lastNameInput;
 
-    @FindBy(css = "input[name='email']")
+    @FindBy(name = "email") // name es único y estable
     private WebElement emailInput;
 
-    @FindBy(css = "input[name='telephone']")
+    @FindBy(name = "telephone") // name es único y estable
     private WebElement telephoneInput;
 
-    @FindBy(css = "input[name='password']")
+    @FindBy(name = "password") // name es único y estable
     private WebElement passwordInput;
 
-    @FindBy(css = "input[name='confirm']")
+    @FindBy(name = "confirm") // name es único y estable
     private WebElement confirmPasswordInput;
 
-    @FindBy(css = "input[name='agree']")
+    @FindBy(name = "agree") // name es único y estable
     private WebElement privacyPolicyCheckbox;
 
-    @FindBy(css = "input[value='Continue']")
+    @FindBy(xpath = "//input[@value='Continue']") // XPath para atributo value
     private WebElement continueButton;
     
-    @FindBy(xpath = "//a[contains(@class, 'btn-primary') and contains(text(), 'Continue')]")
+    @FindBy(xpath = "//a[contains(@class, 'btn-primary') and contains(text(), 'Continue')]") // XPath con múltiples condiciones
     private WebElement continueButtonAfterSuccess;
 
-    @FindBy(css = "div.alert.alert-success")
+    @FindBy(xpath = "//div[contains(@class, 'alert-success')]") // XPath para clase parcial
     private WebElement successMessage;
 
-    @FindBy(css = "div.alert.alert-danger")
+    @FindBy(xpath = "//div[contains(@class, 'alert-danger')]") // XPath para mensajes de error
     private WebElement errorMessage;
 
     // Constructor
@@ -49,10 +49,13 @@ public class RegisterPage extends BasePage {
     }
 
     /**
-     * Navega a la página de registro
+     * Navega a la página de registro y espera a que el formulario esté listo
      */
     public void navigateToRegisterPage() {
         navigateTo("https://opencart.abstracta.us/index.php?route=account/register");
+        // Esperar explícitamente a que el formulario de registro esté visible
+        waitHelper.waitForElementToBeVisible(firstNameInput);
+        waitHelper.customWait(500); // Espera adicional para estabilidad
     }
 
     /**

@@ -13,20 +13,20 @@ import java.util.List;
  */
 public class ProductDetailPage extends BasePage {
 
-    // Localizadores
-    @FindBy(css = "h1")
+    // Localizadores - Combinando name (único), ID (rápido) y XPath (flexible)
+    @FindBy(xpath = "//h1") // XPath simple para título
     private WebElement productTitle;
 
-    @FindBy(css = "input[name='quantity']")
+    @FindBy(name = "quantity") // name es único y estable
     private WebElement quantityInput;
 
-    @FindBy(css = "button#button-cart")
+    @FindBy(id = "button-cart") // ID único - más eficiente
     private WebElement addToCartButton;
 
-    @FindBy(css = "div.alert.alert-success")
+    @FindBy(xpath = "//div[contains(@class, 'alert-success')]") // XPath para clase parcial
     private WebElement successMessage;
 
-    @FindBy(linkText = "shopping cart")
+    @FindBy(linkText = "shopping cart") // linkText es directo para enlaces
     private WebElement shoppingCartLink;
 
     // Constructor
@@ -79,10 +79,11 @@ public class ProductDetailPage extends BasePage {
      */
     private void fillRequiredOptionsIfAny() {
         try {
-            List<WebElement> requiredGroups = driver.findElements(By.cssSelector(".form-group.required"));
+            // XPath para buscar grupos de formularios requeridos
+            List<WebElement> requiredGroups = driver.findElements(By.xpath("//div[contains(@class, 'form-group') and contains(@class, 'required')]"));
             for (WebElement group : requiredGroups) {
-                // Intentar con <select>
-                List<WebElement> selects = group.findElements(By.tagName("select"));
+                // Intentar con <select> - XPath para tag
+                List<WebElement> selects = group.findElements(By.xpath(".//select"));
                 if (!selects.isEmpty()) {
                     WebElement selectEl = selects.get(0);
                     try {
@@ -94,8 +95,8 @@ public class ProductDetailPage extends BasePage {
                     } catch (Exception ignore) { }
                 }
 
-                // Intentar con radio buttons
-                List<WebElement> radios = group.findElements(By.cssSelector("input[type='radio']"));
+                // Intentar con radio buttons - XPath para type
+                List<WebElement> radios = group.findElements(By.xpath(".//input[@type='radio']"));
                 if (!radios.isEmpty()) {
                     WebElement radio = radios.get(0);
                     if (!radio.isSelected()) {
@@ -104,8 +105,8 @@ public class ProductDetailPage extends BasePage {
                     continue;
                 }
 
-                // Intentar con checkboxes
-                List<WebElement> checks = group.findElements(By.cssSelector("input[type='checkbox']"));
+                // Intentar con checkboxes - XPath para type
+                List<WebElement> checks = group.findElements(By.xpath(".//input[@type='checkbox']"));
                 if (!checks.isEmpty()) {
                     WebElement chk = checks.get(0);
                     if (!chk.isSelected()) {
@@ -115,7 +116,7 @@ public class ProductDetailPage extends BasePage {
                 }
 
                 // Fechas u otros inputs de texto requeridos (p. ej., HP LP3065 "Delivery Date")
-                List<WebElement> textInputs = group.findElements(By.cssSelector("input[type='text']"));
+                List<WebElement> textInputs = group.findElements(By.xpath(".//input[@type='text']"));
                 if (!textInputs.isEmpty()) {
                     WebElement txt = textInputs.get(0);
                     // Si parece una fecha, escribir una fecha válida (hoy + 1)

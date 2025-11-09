@@ -10,6 +10,7 @@ public class ProductsPage extends BasePage{
     }
 
     //crear los elementos con los que vamos a interactuar en la pag
+    // Usando XPath para búsqueda dinámica por texto del producto
     private By product(String product){
         return By.xpath("//a[contains(text(),'"+product+"')]");
     }

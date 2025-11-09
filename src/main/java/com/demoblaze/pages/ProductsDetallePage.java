@@ -9,13 +9,13 @@ public class ProductsDetallePage extends BasePage{
         super(driver);
     }
 
-    //Elementos
+    //Elementos - Combinando ID (más rápido) y XPath (más flexible)
     private By quantity(){
-        return By.name("quantity");
+        return By.name("quantity"); // Name es único y estable
     }
 
     private By btnAddCart(){
-        return By.id("button-cart");
+        return By.id("button-cart"); // ID es único - más eficiente que XPath
     }
 
     //metodo

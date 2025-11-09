@@ -12,23 +12,23 @@ import java.util.List;
  */
 public class ProductPage extends BasePage {
 
-    // Localizadores
-    @FindBy(css = "input[name='search']")
+    // Localizadores - Combinando name (único), ID (rápido) y XPath (flexible)
+    @FindBy(name = "search") // name es único y estable
     private WebElement searchInput;
 
-    @FindBy(css = "button.btn.btn-default.btn-lg")
+    @FindBy(xpath = "//button[contains(@class, 'btn-default') and contains(@class, 'btn-lg')]") // XPath para múltiples clases
     private WebElement searchButton;
 
-    @FindBy(css = "div.product-thumb")
+    @FindBy(xpath = "//div[@class='product-thumb']") // XPath para clase específica
     private List<WebElement> productItems;
 
-    @FindBy(css = "h1")
+    @FindBy(xpath = "//h1") // XPath simple para h1
     private WebElement pageTitle;
 
-    @FindBy(css = "p")
+    @FindBy(xpath = "//p[contains(text(), 'There is no product')]") // XPath con texto específico
     private WebElement noProductMessage;
 
-    @FindBy(id = "content")
+    @FindBy(id = "content") // ID único - más rápido
     private WebElement contentArea;
 
     // Constructor

@@ -13,17 +13,17 @@ import java.util.List;
  */
 public class CartPage extends BasePage {
 
-    // Localizadores
-    @FindBy(css = "div.table-responsive")
+    // Localizadores - Combinando XPath (flexible) y linkText (directo)
+    @FindBy(xpath = "//div[@class='table-responsive']") // XPath para clase específica
     private WebElement cartTable;
 
-    @FindBy(css = "tbody tr")
+    @FindBy(xpath = "//tbody/tr") // XPath para filas de la tabla
     private List<WebElement> cartItems;
 
-    @FindBy(linkText = "Shopping Cart")
+    @FindBy(linkText = "Shopping Cart") // linkText es directo para enlaces
     private WebElement shoppingCartLink;
 
-    @FindBy(css = "p")
+    @FindBy(xpath = "//p[contains(text(), 'Your shopping cart is empty')]") // XPath con texto
     private WebElement emptyCartMessage;
 
     // Constructor
@@ -44,12 +44,12 @@ public class CartPage extends BasePage {
      */
     public void clickShoppingCart() {
         try {
-            // Primero hacer clic en el botón del carrito en el header
-            WebElement cartButton = driver.findElement(By.cssSelector("button[data-toggle='dropdown']"));
+            // Primero hacer clic en el botón del carrito en el header - XPath para data attribute
+            WebElement cartButton = driver.findElement(By.xpath("//button[@data-toggle='dropdown']"));
             clickElement(cartButton);
             waitHelper.customWait(500);
             
-            // Luego hacer clic en "View Cart"
+            // Luego hacer clic en "View Cart" - XPath con condiciones múltiples
             WebElement viewCartLink = driver.findElement(By.xpath("//p[@class='text-right']//a[contains(text(), 'View Cart')]"));
             clickElement(viewCartLink);
             waitHelper.waitForPageLoad();

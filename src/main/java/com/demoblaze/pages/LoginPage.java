@@ -9,26 +9,26 @@ import org.openqa.selenium.support.FindBy;
  */
 public class LoginPage extends BasePage {
 
-    // Localizadores
-    @FindBy(css = "input[name='email']")
+    // Localizadores - Combinando ID (rápido) y XPath (flexible)
+    @FindBy(name = "email") // name es único y estable
     private WebElement emailInput;
 
-    @FindBy(css = "input[name='password']")
+    @FindBy(name = "password") // name es único y estable
     private WebElement passwordInput;
 
-    @FindBy(css = "input[value='Login']")
+    @FindBy(xpath = "//input[@value='Login']") // XPath para atributo value
     private WebElement loginButton;
 
-    @FindBy(css = "div.alert.alert-success")
+    @FindBy(xpath = "//div[contains(@class, 'alert-success')]") // XPath para clase parcial
     private WebElement successMessage;
 
-    @FindBy(css = "div.alert.alert-danger")
+    @FindBy(xpath = "//div[contains(@class, 'alert-danger')]") // XPath para mensajes de error
     private WebElement errorMessage;
 
-    @FindBy(linkText = "My Account")
+    @FindBy(linkText = "My Account") // linkText es directo para enlaces
     private WebElement myAccountLink;
 
-    @FindBy(linkText = "Logout")
+    @FindBy(linkText = "Logout") // linkText es directo para enlaces
     private WebElement logoutLink;
 
     // Constructor
@@ -162,8 +162,6 @@ public class LoginPage extends BasePage {
             
             // Verificar que realmente se hizo logout verificando el link "Logout"
             try {
-                // Refrescar la página para asegurar que el estado se actualice
-                driver.navigate().refresh();
                 waitHelper.customWait(1000);
                 
                 // Verificar que NO esté el link "Logout" (= sesión cerrada)
@@ -184,9 +182,8 @@ public class LoginPage extends BasePage {
             try {
                 driver.manage().deleteAllCookies();
                 navigateTo("https://opencart.abstracta.us/");
-                driver.navigate().refresh();
                 waitHelper.customWait(1500);
-                System.out.println("   → Respaldo ejecutado - cookies borradas y página refrescada");
+                System.out.println("   → Respaldo ejecutado - cookies borradas");
             } catch (Exception ex) {
                 System.out.println("⚠ Respaldo de logout también falló");
             }
@@ -200,12 +197,9 @@ public class LoginPage extends BasePage {
      */
     public boolean isUserLoggedIn() {
         try {
-            // Refrescar la página para obtener el estado actualizado del DOM
-            driver.navigate().refresh();
-            waitHelper.customWait(1000);
-            
             // CAMBIO CRÍTICO: Verificar si existe el link "Logout" en lugar de "My Account"
             // porque "My Account" siempre está visible
+            waitHelper.customWait(500);
             boolean hasLogout = isElementDisplayed(logoutLink);
             if (hasLogout) {
                 System.out.println("   [Debug] Link 'Logout' detectado - usuario SÍ está logueado");
@@ -214,7 +208,7 @@ public class LoginPage extends BasePage {
             }
             return hasLogout;
         } catch (Exception e) {
-            System.out.println("   [Debug] Excepción al verificar login - asumiendo NO logueado: " + e.getMessage());
+            System.out.println("   [Debug] Excepción al verificar login - asumiendo NO logueado");
             return false;
         }
     }
