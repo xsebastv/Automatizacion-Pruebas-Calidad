@@ -113,8 +113,16 @@ public class LoginTest extends BaseTest {
             logWriter.logMessage("\n--- Probando login: " + email + " ---");
             
             try {
+                // Asegurarse de que no haya sesión activa antes de hacer login
+                if (loginPage.isUserLoggedIn()) {
+                    logWriter.logMessage("   ⚠ Sesión activa detectada, haciendo logout primero...");
+                    loginPage.logout();
+                    Thread.sleep(1000);
+                }
+                
                 // Navegar a la página de login
                 loginPage.navigateToLoginPage();
+                Thread.sleep(500);
                 
                 // Intentar hacer login
                 boolean loginExitoso = loginPage.login(email, password);
@@ -127,7 +135,7 @@ public class LoginTest extends BaseTest {
                         
                         // Hacer logout para la próxima prueba
                         loginPage.logout();
-                        Thread.sleep(1000);
+                        Thread.sleep(1500);
                     } else {
                         String errorMsg = loginPage.getErrorMessage();
                         logWriter.logLogin(email, false, "Se esperaba éxito pero falló: " + errorMsg);
@@ -145,7 +153,7 @@ public class LoginTest extends BaseTest {
                         
                         // Hacer logout
                         loginPage.logout();
-                        Thread.sleep(1000);
+                        Thread.sleep(1500);
                     }
                 }
                 
@@ -154,6 +162,13 @@ public class LoginTest extends BaseTest {
             } catch (Exception e) {
                 logWriter.logLogin(email, false, "Excepción: " + e.getMessage());
                 softAssert.fail("Excepción al probar login " + email + ": " + e.getMessage());
+                
+                // Intentar logout de emergencia
+                try {
+                    loginPage.logout();
+                } catch (Exception ex) {
+                    // Ignorar errores de logout de emergencia
+                }
             }
         }
         

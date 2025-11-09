@@ -109,19 +109,40 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     * Realiza logout
+     * Realiza logout navegando directamente a la URL de logout
      */
     public void logout() {
         try {
-            if (isElementDisplayed(myAccountLink)) {
-                clickElement(myAccountLink);
-                waitHelper.customWait(500);
-            }
-            if (isElementDisplayed(logoutLink)) {
-                clickElement(logoutLink);
-            }
+            // Navegar directamente a la URL de logout (más confiable)
+            navigateTo("https://opencart.abstracta.us/index.php?route=account/logout");
+            waitHelper.customWait(1000);
+            System.out.println("✓ Logout exitoso");
         } catch (Exception e) {
-            System.out.println("No se pudo hacer logout: " + e.getMessage());
+            System.out.println("⚠ Error al hacer logout: " + e.getMessage());
+            // Intentar método alternativo
+            try {
+                if (isElementDisplayed(myAccountLink)) {
+                    clickElement(myAccountLink);
+                    waitHelper.customWait(500);
+                    if (isElementDisplayed(logoutLink)) {
+                        clickElement(logoutLink);
+                        waitHelper.customWait(1000);
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("⚠ Logout alternativo también falló");
+            }
+        }
+    }
+    
+    /**
+     * Verifica si el usuario está logueado
+     */
+    public boolean isUserLoggedIn() {
+        try {
+            return isElementDisplayed(myAccountLink);
+        } catch (Exception e) {
+            return false;
         }
     }
 }
