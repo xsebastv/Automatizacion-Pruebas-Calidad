@@ -33,6 +33,9 @@ public class RegisterPage extends BasePage {
 
     @FindBy(css = "input[value='Continue']")
     private WebElement continueButton;
+    
+    @FindBy(xpath = "//a[contains(@class, 'btn-primary') and contains(text(), 'Continue')]")
+    private WebElement continueButtonAfterSuccess;
 
     @FindBy(css = "div.alert.alert-success")
     private WebElement successMessage;
@@ -124,6 +127,22 @@ public class RegisterPage extends BasePage {
     }
 
     /**
+     * Hace clic en el botón Continue después del mensaje de éxito
+     */
+    public void clickContinueAfterSuccess() {
+        try {
+            waitHelper.customWait(1000);
+            if (isElementDisplayed(continueButtonAfterSuccess)) {
+                clickElement(continueButtonAfterSuccess);
+                waitHelper.customWait(1000);
+                System.out.println("✓ Clic en botón Continue después del registro exitoso");
+            }
+        } catch (Exception e) {
+            System.out.println("⚠ No se encontró botón Continue después del éxito (puede ser normal si ya salió)");
+        }
+    }
+    
+    /**
      * Realiza el registro completo
      */
     public boolean registerUser(String firstName, String lastName, String email, 
@@ -131,6 +150,14 @@ public class RegisterPage extends BasePage {
         fillRegistrationForm(firstName, lastName, email, telephone, password);
         acceptPrivacyPolicy();
         clickContinue();
-        return isSuccessMessageDisplayed();
+        
+        boolean success = isSuccessMessageDisplayed();
+        
+        // Si el registro fue exitoso, hacer clic en Continue para volver
+        if (success) {
+            clickContinueAfterSuccess();
+        }
+        
+        return success;
     }
 }
