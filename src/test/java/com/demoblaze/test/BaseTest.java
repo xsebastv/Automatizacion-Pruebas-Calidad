@@ -1,5 +1,6 @@
 package com.demoblaze.test;
 
+import com.demoblaze.utils.ExcelDataGenerator;
 import com.demoblaze.utils.LogWriter;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.io.File;
 import java.time.Duration;
 
 /**
@@ -21,6 +23,9 @@ public class BaseTest {
 
     @BeforeSuite
     public void setup() {
+        // Generar archivo Excel si no existe
+        generateExcelIfNotExists();
+        
         // Configurar el Driver
         WebDriverManager.chromedriver().setup();
 
@@ -59,6 +64,25 @@ public class BaseTest {
         // Cerrar el navegador
         if (driver != null) {
             driver.quit();
+        }
+    }
+
+    /**
+     * Genera el archivo Excel con datos de prueba si no existe
+     */
+    private void generateExcelIfNotExists() {
+        String filePath = "src/main/resources/testData.xlsx";
+        File excelFile = new File(filePath);
+        
+        if (!excelFile.exists()) {
+            System.out.println("========================================");
+            System.out.println("Archivo Excel no encontrado. Generando testData.xlsx...");
+            System.out.println("========================================");
+            ExcelDataGenerator.main(new String[]{});
+        } else {
+            System.out.println("========================================");
+            System.out.println("Archivo Excel encontrado: " + filePath);
+            System.out.println("========================================");
         }
     }
 

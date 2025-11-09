@@ -3,6 +3,7 @@ package com.demoblaze.utils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -13,6 +14,14 @@ public class ExcelDataGenerator {
 
     public static void main(String[] args) {
         String filePath = "src/main/resources/testData.xlsx";
+        
+        // Crear el directorio si no existe
+        File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+            System.out.println("Directorio creado: " + parentDir.getPath());
+        }
         
         try (Workbook workbook = new XSSFWorkbook()) {
             
@@ -30,7 +39,7 @@ public class ExcelDataGenerator {
                 workbook.write(fileOut);
             }
             
-            System.out.println("Archivo Excel creado exitosamente en: " + filePath);
+            System.out.println("✓ Archivo Excel creado exitosamente en: " + filePath);
             
         } catch (IOException e) {
             System.err.println("Error al crear el archivo Excel: " + e.getMessage());
