@@ -1,6 +1,7 @@
 package com.demoblaze.test;
 
 import com.demoblaze.pages.LoginPage;
+import com.demoblaze.pages.RegisterPage;
 import com.demoblaze.utils.ExcelReader;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -12,26 +13,75 @@ import java.util.Map;
 
 /**
  * Test de Inicio de Sesión
- * Lee credenciales desde Excel y valida login exitoso y fallido
+ * Primero registra usuarios y luego valida login exitoso y fallido
  */
 public class LoginTest extends BaseTest {
 
     private LoginPage loginPage;
+    private RegisterPage registerPage;
     private ExcelReader excelReader;
     private String excelPath;
 
     @BeforeClass
     public void setupTest() {
         loginPage = new LoginPage(driver);
+        registerPage = new RegisterPage(driver);
         excelPath = "src/main/resources/testData.xlsx";
         excelReader = new ExcelReader(excelPath);
         
         logWriter.logSection("PRUEBA DE INICIO DE SESIÓN");
     }
 
-    @Test(priority = 1, description = "Login con diferentes credenciales desde Excel")
+    @Test(priority = 1, description = "Registrar usuarios válidos para las pruebas de login")
+    public void testRegistrarUsuariosParaLogin() {
+        logWriter.logMessage("\n=== REGISTRANDO USUARIOS PARA PRUEBAS DE LOGIN ===");
+        
+        // Leer solo los primeros 2 usuarios del registro para hacer login después
+        List<Map<String, String>> usuarios = excelReader.readUsuariosRegistro();
+        
+        SoftAssert softAssert = new SoftAssert();
+        
+        // Registrar solo los primeros 2 usuarios
+        for (int i = 0; i < Math.min(2, usuarios.size()); i++) {
+            Map<String, String> usuario = usuarios.get(i);
+            String firstName = usuario.get("First Name");
+            String lastName = usuario.get("Last Name");
+            String email = usuario.get("E-Mail");
+            String telephone = usuario.get("Telephone");
+            String password = usuario.get("Password");
+            
+            logWriter.logMessage("\n--- Registrando usuario: " + email + " ---");
+            
+            try {
+                registerPage.navigateToRegisterPage();
+                boolean registroExitoso = registerPage.registerUser(
+                    firstName, lastName, email, telephone, password
+                );
+                
+                if (registroExitoso) {
+                    logWriter.logMessage("✓ Usuario registrado exitosamente: " + email);
+                } else {
+                    logWriter.logMessage("⚠ Usuario ya existe o error en registro: " + email);
+                }
+                
+                Thread.sleep(1000);
+                
+            } catch (Exception e) {
+                logWriter.logMessage("⚠ Error registrando usuario: " + e.getMessage());
+            }
+        }
+        
+        softAssert.assertAll();
+    }
+
+    @Test(priority = 2, description = "Login con diferentes credenciales desde Excel", dependsOnMethods = "testRegistrarUsuariosParaLogin")
     public void testLoginUsuarios() {
-        // Leer datos de login desde Excel
+        logWriter.logMessage("\n=== INICIANDO PRUEBAS DE LOGIN ===");
+        
+        // Leer datos de usuarios registrados para hacer login exitoso
+        List<Map<String, String>> usuarios = excelReader.readUsuariosRegistro();
+        
+        // Leer datos de login que incluyen casos inválidos
         List<Map<String, String>> credenciales = excelReader.readLoginData();
         
         logWriter.logMessage("Credenciales a probar: " + credenciales.size());
@@ -42,6 +92,23 @@ public class LoginTest extends BaseTest {
             String email = credencial.get("Email");
             String password = credencial.get("Password");
             String expectedResult = credencial.get("Expected Result"); // "Success" o "Fail"
+            
+            // Si el email es de tipo "Success", usar el email real generado
+            if ("Success".equalsIgnoreCase(expectedResult)) {
+                // Buscar el usuario correspondiente en la lista de usuarios registrados
+                for (Map<String, String> usuario : usuarios) {
+                    String realEmail = usuario.get("E-Mail");
+                    if (email.contains("juan.perez") && realEmail.contains("juan.perez")) {
+                        email = realEmail;
+                        password = usuario.get("Password");
+                        break;
+                    } else if (email.contains("maria.gonzalez") && realEmail.contains("maria.gonzalez")) {
+                        email = realEmail;
+                        password = usuario.get("Password");
+                        break;
+                    }
+                }
+            }
             
             logWriter.logMessage("\n--- Probando login: " + email + " ---");
             
@@ -93,7 +160,7 @@ public class LoginTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(priority = 2, description = "Validar mensaje de error con credenciales inválidas")
+    @Test(priority = 3, description = "Validar mensaje de error con credenciales inválidas", dependsOnMethods = "testLoginUsuarios")
     public void testLoginCredencialesInvalidas() {
         logWriter.logMessage("\n--- Validando mensaje de error con credenciales inválidas ---");
         

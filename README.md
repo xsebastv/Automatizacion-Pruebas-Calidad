@@ -35,8 +35,10 @@ Este framework de automatización está diseñado para ejecutar pruebas end-to-e
    -  Registra resultados en log
 
 3. **Prueba 2: Login** (`LoginTest.java`)
+   -  **Registra primero 2 usuarios** para tener credenciales válidas
    -  Lee hoja "LoginData" con credenciales y resultado esperado
-   -  Intenta login para cada fila
+   -  **Sincroniza emails reales** de usuarios registrados con los casos de éxito
+   -  Intenta login para cada fila (casos exitosos + casos inválidos)
    -  Compara resultado real vs esperado (Success/Fail)
    -  Valida mensajes de error en casos negativos
 

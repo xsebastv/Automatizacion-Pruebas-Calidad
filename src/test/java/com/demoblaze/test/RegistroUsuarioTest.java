@@ -17,12 +17,11 @@ public class RegistroUsuarioTest extends BaseTest {
 
     private RegisterPage registerPage;
     private ExcelReader excelReader;
-    private String excelPath;
 
     @BeforeClass
     public void setupTest() {
         registerPage = new RegisterPage(driver);
-        excelPath = "src/main/resources/testData.xlsx";
+        String excelPath = "src/main/resources/testData.xlsx";
         excelReader = new ExcelReader(excelPath);
         
         logWriter.logSection("PRUEBA DE REGISTRO DE USUARIOS");
