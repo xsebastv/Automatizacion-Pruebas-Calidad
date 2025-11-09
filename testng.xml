@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="OpenCart Test Suite" verbose="1">
+    <test name="OpenCart Automation Tests" preserve-order="true">
+        <classes>
+            <!-- Prueba 1: Registro de Usuarios -->
+            <class name="com.demoblaze.test.RegistroUsuarioTest"/>
+            
+            <!-- Prueba 2: Inicio de Sesión -->
+            <class name="com.demoblaze.test.LoginTest"/>
+            
+            <!-- Prueba 3: Búsqueda y Agregado al Carrito -->
+            <class name="com.demoblaze.test.BusquedaYCarritoTest"/>
+        </classes>
+    </test>
+</suite>
