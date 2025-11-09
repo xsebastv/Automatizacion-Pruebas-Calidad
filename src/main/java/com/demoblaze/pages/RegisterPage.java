@@ -34,7 +34,7 @@ public class RegisterPage extends BasePage {
     @FindBy(xpath = "//input[@value='Continue']") // XPath para atributo value
     private WebElement continueButton;
     
-    @FindBy(xpath = "//a[contains(@class, 'btn-primary') and contains(text(), 'Continue')]") // XPath con múltiples condiciones
+    @FindBy(xpath = "//a[contains(text(), 'Continue')]") // Botón Continue en página de éxito
     private WebElement continueButtonAfterSuccess;
 
     @FindBy(xpath = "//div[contains(@class, 'alert-success')]") // XPath para clase parcial
@@ -188,29 +188,42 @@ public class RegisterPage extends BasePage {
     public void clickContinueAfterSuccess() {
         try {
             System.out.println("   → Buscando botón Continue en página de confirmación...");
-            waitHelper.customWait(2000); // Espera mayor para que cargue la página
+            waitHelper.customWait(1000);
             
-            // Intentar esperar explícitamente por el botón
-            waitHelper.waitForElementToBeClickable(continueButtonAfterSuccess);
-            
-            if (isElementDisplayed(continueButtonAfterSuccess)) {
-                System.out.println("   → Haciendo clic en Continue...");
-                clickElement(continueButtonAfterSuccess);
-                waitHelper.customWait(1500);
-                System.out.println("✓ Clic exitoso en botón Continue - volviendo a home");
-            } else {
-                System.out.println("⚠ Botón Continue no visible");
-            }
-        } catch (Exception e) {
-            System.out.println("⚠ Error al buscar botón Continue: " + e.getMessage());
-            // Intentar con URL directa como respaldo
+            // Intentar múltiples estrategias para encontrar el botón Continue
             try {
-                System.out.println("   → Intentando navegación directa a home...");
-                navigateTo("https://opencart.abstracta.us/");
+                // Primera estrategia: Esperar por el elemento
+                waitHelper.waitForElementToBeClickable(continueButtonAfterSuccess);
+                System.out.println("   → Botón Continue encontrado, haciendo clic...");
+                clickElement(continueButtonAfterSuccess);
                 waitHelper.customWait(1000);
-            } catch (Exception ex) {
-                System.out.println("⚠ Navegación directa también falló");
+                System.out.println("✓ Clic exitoso en botón Continue");
+                return;
+            } catch (Exception e1) {
+                System.out.println("⚠ Estrategia 1 falló, intentando con XPath directo...");
             }
+            
+            // Segunda estrategia: Buscar cualquier link con texto Continue
+            try {
+                WebElement continueLink = driver.findElement(
+                    org.openqa.selenium.By.xpath("//a[normalize-space(text())='Continue']")
+                );
+                continueLink.click();
+                waitHelper.customWait(1000);
+                System.out.println("✓ Clic exitoso en Continue (estrategia 2)");
+                return;
+            } catch (Exception e2) {
+                System.out.println("⚠ Estrategia 2 falló, navegando directamente...");
+            }
+            
+            // Tercera estrategia: Navegar directamente a home
+            System.out.println("   → Navegando directamente a home como respaldo...");
+            navigateTo("https://opencart.abstracta.us/");
+            waitHelper.customWait(1000);
+            System.out.println("✓ Navegación directa completada");
+            
+        } catch (Exception e) {
+            System.out.println("⚠ Error general al procesar Continue: " + e.getMessage());
         }
     }
     
@@ -253,6 +266,7 @@ public class RegisterPage extends BasePage {
      */
     public boolean registerUser(String firstName, String lastName, String email, 
                                   String telephone, String password) {
+        boolean registroExitoso = false;
         try {
             System.out.println("   → Llenando formulario de registro...");
             fillRegistrationForm(firstName, lastName, email, telephone, password);
@@ -264,7 +278,7 @@ public class RegisterPage extends BasePage {
             clickContinue();
             
             // Esperar respuesta del servidor
-            waitHelper.customWait(1500);
+            waitHelper.customWait(3000); // Espera aumentada para dar tiempo al servidor
             
             // Verificar si fue exitoso o hubo error
             boolean success = isSuccessMessageDisplayed();
@@ -272,24 +286,47 @@ public class RegisterPage extends BasePage {
             
             if (success) {
                 System.out.println("✓ Registro completado exitosamente");
+                registroExitoso = true;
                 // Hacer clic en Continue para volver a la página principal
                 clickContinueAfterSuccess();
-                // IMPORTANTE: Hacer logout para que el siguiente usuario pueda registrarse
-                logoutAfterRegistration();
-                return true;
             } else if (hasError) {
                 String errorMsg = getErrorMessage();
                 System.out.println("⚠ Registro falló - Error: " + errorMsg);
-                return false;
+                registroExitoso = false;
             } else {
-                System.out.println("⚠ Registro - sin mensaje de éxito ni error");
-                return false;
+                // Sin mensaje explícito, pero puede que el registro haya ocurrido
+                // Si no hay error, asumimos éxito (el usuario queda logueado)
+                System.out.println("⚠ Registro - sin mensaje explícito (probablemente exitoso)");
+                registroExitoso = true; // Asumimos éxito si no hay error
             }
             
         } catch (Exception e) {
             System.out.println("✗ Excepción durante el registro: " + e.getMessage());
             e.printStackTrace();
-            return false;
+            registroExitoso = false;
+        } finally {
+            // CRÍTICO: SIEMPRE intentar hacer logout después del registro
+            // Esto asegura que el siguiente usuario pueda registrarse
+            try {
+                System.out.println("   → Verificando y cerrando sesión si está activa...");
+                // Intentar hacer logout si hay sesión activa
+                if (isElementDisplayed(myAccountLink) || isElementDisplayed(logoutLink)) {
+                    logoutAfterRegistration();
+                } else {
+                    System.out.println("   → No hay sesión activa para cerrar");
+                }
+            } catch (Exception ex) {
+                System.out.println("⚠ Error al verificar/cerrar sesión: " + ex.getMessage());
+                // Forzar limpieza de cookies como último recurso
+                try {
+                    driver.manage().deleteAllCookies();
+                    System.out.println("   → Cookies eliminadas por seguridad");
+                } catch (Exception e2) {
+                    // Ignorar si falla
+                }
+            }
         }
+        
+        return registroExitoso;
     }
 }

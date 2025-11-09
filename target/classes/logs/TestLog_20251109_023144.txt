@@ -1,0 +1,178 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 09/11/2025 02:31:44
+========================================
+
+09/11/2025 02:31:44 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 02:31:44 - Navegador: Chrome
+09/11/2025 02:31:44 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE REGISTRO DE USUARIOS ==========
+
+09/11/2025 02:31:45 - 
+========================================
+09/11/2025 02:31:45 - Usuarios a registrar: 5
+09/11/2025 02:31:45 - ========================================
+09/11/2025 02:31:45 - 
+--- Usuario 1/5: juan.perez+20251109_023142@test.com ---
+[REGISTRO] 09/11/2025 02:32:31
+  Email: juan.perez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:32:32 - 
+--- Usuario 2/5: maria.gonzalez+20251109_023142@test.com ---
+[REGISTRO] 09/11/2025 02:33:16
+  Email: maria.gonzalez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:33:18 - 
+--- Usuario 3/5: carlos.rodriguez+20251109_023142@test.com ---
+[REGISTRO] 09/11/2025 02:34:02
+  Email: carlos.rodriguez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:34:04 - 
+--- Usuario 4/5: ana.martinez+20251109_023142@test.com ---
+[REGISTRO] 09/11/2025 02:34:48
+  Email: ana.martinez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:34:50 - 
+--- Usuario 5/5: luis.garcia+20251109_023142@test.com ---
+[REGISTRO] 09/11/2025 02:35:34
+  Email: luis.garcia+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:35:35 - 
+========================================
+09/11/2025 02:35:35 - RESUMEN DE REGISTRO DE USUARIOS
+09/11/2025 02:35:35 - Total usuarios: 5
+09/11/2025 02:35:35 - Registros exitosos: 5
+09/11/2025 02:35:35 - Registros fallidos: 0
+09/11/2025 02:35:35 - ========================================
+
+========== PRUEBA DE INICIO DE SESIÓN ==========
+
+09/11/2025 02:35:35 - 
+=== REGISTRANDO USUARIOS PARA PRUEBAS DE LOGIN ===
+09/11/2025 02:35:35 - 
+--- Registrando usuario: juan.perez+20251109_023142@test.com ---
+09/11/2025 02:36:17 - ⚠ Usuario ya existe o error en registro: juan.perez+20251109_023142@test.com
+09/11/2025 02:36:18 - 
+--- Registrando usuario: maria.gonzalez+20251109_023142@test.com ---
+09/11/2025 02:37:01 - ⚠ Usuario ya existe o error en registro: maria.gonzalez+20251109_023142@test.com
+09/11/2025 02:37:02 - 
+=== INICIANDO PRUEBAS DE LOGIN ===
+09/11/2025 02:37:02 - Credenciales a probar: 5
+09/11/2025 02:37:02 - 
+--- Probando login: juan.perez+20251109_023142@test.com ---
+[LOGIN] 09/11/2025 02:37:28
+  Email: juan.perez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Login exitoso como esperado
+
+09/11/2025 02:37:49 - 
+--- Probando login: maria.gonzalez+20251109_023142@test.com ---
+[LOGIN] 09/11/2025 02:38:15
+  Email: maria.gonzalez+20251109_023142@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Login exitoso como esperado
+
+09/11/2025 02:38:36 - 
+--- Probando login: usuario.invalido@test.com ---
+[LOGIN] 09/11/2025 02:38:52
+  Email: usuario.invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.
+
+09/11/2025 02:38:53 - 
+--- Probando login:  ---
+[LOGIN] 09/11/2025 02:39:08
+  Email: 
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 02:39:09 - 
+--- Probando login: test@test.com ---
+[LOGIN] 09/11/2025 02:39:25
+  Email: test@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+09/11/2025 02:39:25 - 
+--- Validando mensaje de error con credenciales inválidas ---
+[LOGIN] 09/11/2025 02:39:30
+  Email: usuario_invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Mensaje de error mostrado: Warning: No match for E-Mail Address and/or Password.
+
+
+========== PRUEBA DE BÚSQUEDA Y AGREGADO AL CARRITO ==========
+
+09/11/2025 02:39:30 - Productos a buscar y agregar: 5
+09/11/2025 02:39:30 - 
+--- Procesando producto: HP LP3065 ---
+09/11/2025 02:39:37 - Producto encontrado: HP LP3065
+[PRODUCTO AGREGADO] 09/11/2025 02:40:32
+  Categoría: Desktops
+  Subcategoría: PC
+  Producto: HP LP3065
+  Cantidad: 1
+  Estado: EXITOSO
+
+09/11/2025 02:40:33 - 
+--- Procesando producto: MacBook ---
+09/11/2025 02:40:39 - Producto encontrado: MacBook
+[PRODUCTO AGREGADO] 09/11/2025 02:41:34
+  Categoría: Laptops & Notebooks
+  Producto: MacBook
+  Cantidad: 2
+  Estado: EXITOSO
+
+09/11/2025 02:41:35 - 
+--- Procesando producto: Apple Cinema 30 ---
+09/11/2025 02:41:42 - Producto encontrado: Apple Cinema 30
+[PRODUCTO AGREGADO] 09/11/2025 02:42:57
+  Categoría: Components
+  Subcategoría: Monitors
+  Producto: Apple Cinema 30
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:42:58 - 
+--- Procesando producto: iPhone ---
+09/11/2025 02:43:03 - Producto encontrado: iPhone
+[PRODUCTO AGREGADO] 09/11/2025 02:43:59
+  Categoría: 
+  Producto: iPhone
+  Cantidad: 1
+  Estado: EXITOSO
+
+09/11/2025 02:44:00 - 
+--- Procesando producto: Canon EOS 5D ---
+09/11/2025 02:49:16 - Excepción al procesar producto Canon EOS 5D: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [ada07586b9c55b0891f2858f6dee2466, findElement {using=name, value=search}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50786}, goog:processID: 59288, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50786/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: ada07586b9c55b0891f2858f6dee2466
+[PRODUCTO AGREGADO] 09/11/2025 02:49:16
+  Categoría: Cameras
+  Producto: Canon EOS 5D
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:49:16 - 
+=== RESUMEN ===
+09/11/2025 02:49:16 - Total productos procesados: 5
+09/11/2025 02:49:16 - Total productos agregados al carrito: 3
+09/11/2025 02:49:16 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 02:49:16 - Ruta del log: src\main\resources\logs\TestLog_20251109_023144.txt
+
+========== FIN DEL REPORTE ==========

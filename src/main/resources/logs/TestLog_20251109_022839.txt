@@ -1,0 +1,255 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 09/11/2025 02:28:39
+========================================
+
+09/11/2025 02:28:39 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 02:28:39 - Navegador: Chrome
+09/11/2025 02:28:39 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE REGISTRO DE USUARIOS ==========
+
+09/11/2025 02:28:39 - 
+========================================
+09/11/2025 02:28:39 - Usuarios a registrar: 5
+09/11/2025 02:28:39 - ========================================
+09/11/2025 02:28:39 - 
+--- Usuario 1/5: juan.perez+20251109_022837@test.com ---
+[REGISTRO] 09/11/2025 02:29:26
+  Email: juan.perez+20251109_022837@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:29:27 - 
+--- Usuario 2/5: maria.gonzalez+20251109_022837@test.com ---
+[REGISTRO] 09/11/2025 02:30:10
+  Email: maria.gonzalez+20251109_022837@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+09/11/2025 02:30:12 - 
+--- Usuario 3/5: carlos.rodriguez+20251109_022837@test.com ---
+[REGISTRO] 09/11/2025 02:30:12
+  Email: carlos.rodriguez+20251109_022837@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:12 - 
+--- Usuario 4/5: ana.martinez+20251109_022837@test.com ---
+[REGISTRO] 09/11/2025 02:30:12
+  Email: ana.martinez+20251109_022837@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:12 - 
+--- Usuario 5/5: luis.garcia+20251109_022837@test.com ---
+[REGISTRO] 09/11/2025 02:30:12
+  Email: luis.garcia+20251109_022837@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:12 - 
+========================================
+09/11/2025 02:30:12 - RESUMEN DE REGISTRO DE USUARIOS
+09/11/2025 02:30:12 - Total usuarios: 5
+09/11/2025 02:30:12 - Registros exitosos: 2
+09/11/2025 02:30:12 - Registros fallidos: 3
+09/11/2025 02:30:12 - ========================================
+
+========== PRUEBA DE INICIO DE SESIÓN ==========
+
+09/11/2025 02:30:12 - 
+=== REGISTRANDO USUARIOS PARA PRUEBAS DE LOGIN ===
+09/11/2025 02:30:12 - 
+--- Registrando usuario: juan.perez+20251109_022837@test.com ---
+09/11/2025 02:30:12 - ⚠ Error registrando usuario: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+09/11/2025 02:30:12 - 
+--- Registrando usuario: maria.gonzalez+20251109_022837@test.com ---
+09/11/2025 02:30:12 - ⚠ Error registrando usuario: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+09/11/2025 02:30:12 - 
+=== INICIANDO PRUEBAS DE LOGIN ===
+09/11/2025 02:30:12 - Credenciales a probar: 5
+09/11/2025 02:30:12 - 
+--- Probando login: juan.perez+20251109_022837@test.com ---
+[LOGIN] 09/11/2025 02:30:12
+  Email: juan.perez+20251109_022837@test.com
+  Estado: FALLIDO
+  Mensaje: Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:12 - 
+--- Probando login: maria.gonzalez+20251109_022837@test.com ---
+[LOGIN] 09/11/2025 02:30:13
+  Email: maria.gonzalez+20251109_022837@test.com
+  Estado: FALLIDO
+  Mensaje: Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:13 - 
+--- Probando login: usuario.invalido@test.com ---
+[LOGIN] 09/11/2025 02:30:14
+  Email: usuario.invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:14 - 
+--- Probando login:  ---
+[LOGIN] 09/11/2025 02:30:14
+  Email: 
+  Estado: FALLIDO
+  Mensaje: Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+09/11/2025 02:30:14 - 
+--- Probando login: test@test.com ---
+[LOGIN] 09/11/2025 02:30:15
+  Email: test@test.com
+  Estado: FALLIDO
+  Mensaje: Excepción: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/index.php?route=account/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+
+
+========== PRUEBA DE BÚSQUEDA Y AGREGADO AL CARRITO ==========
+
+09/11/2025 02:30:15 - Productos a buscar y agregar: 5
+09/11/2025 02:30:15 - 
+--- Procesando producto: HP LP3065 ---
+09/11/2025 02:30:15 - Excepción al procesar producto HP LP3065: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+[PRODUCTO AGREGADO] 09/11/2025 02:30:15
+  Categoría: Desktops
+  Subcategoría: PC
+  Producto: HP LP3065
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:30:15 - 
+--- Procesando producto: MacBook ---
+09/11/2025 02:30:15 - Excepción al procesar producto MacBook: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+[PRODUCTO AGREGADO] 09/11/2025 02:30:15
+  Categoría: Laptops & Notebooks
+  Producto: MacBook
+  Cantidad: 2
+  Estado: FALLIDO
+
+09/11/2025 02:30:15 - 
+--- Procesando producto: Apple Cinema 30 ---
+09/11/2025 02:30:15 - Excepción al procesar producto Apple Cinema 30: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+[PRODUCTO AGREGADO] 09/11/2025 02:30:15
+  Categoría: Components
+  Subcategoría: Monitors
+  Producto: Apple Cinema 30
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:30:15 - 
+--- Procesando producto: iPhone ---
+09/11/2025 02:30:15 - Excepción al procesar producto iPhone: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+[PRODUCTO AGREGADO] 09/11/2025 02:30:15
+  Categoría: 
+  Producto: iPhone
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:30:15 - 
+--- Procesando producto: Canon EOS 5D ---
+09/11/2025 02:30:15 - Excepción al procesar producto Canon EOS 5D: invalid session id
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [992f1203a5660b7987a5a6fdb3284ce1, get {url=https://opencart.abstracta.us/}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.61 (9884f628acbc..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54210}, goog:processID: 16048, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54210/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 992f1203a5660b7987a5a6fdb3284ce1
+[PRODUCTO AGREGADO] 09/11/2025 02:30:15
+  Categoría: Cameras
+  Producto: Canon EOS 5D
+  Cantidad: 1
+  Estado: FALLIDO
+
+09/11/2025 02:30:15 - 
+=== RESUMEN ===
+09/11/2025 02:30:15 - Total productos procesados: 5
+09/11/2025 02:30:15 - Total productos agregados al carrito: 0
+09/11/2025 02:30:15 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 02:30:15 - Ruta del log: src\main\resources\logs\TestLog_20251109_022839.txt
+
+========== FIN DEL REPORTE ==========

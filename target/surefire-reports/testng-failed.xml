@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [OpenCart Test Suite]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="5" name="OpenCart Automation Tests(failed)" verbose="0">
+    <classes>
+      <class name="com.demoblaze.test.BusquedaYCarritoTest">
+        <methods>
+          <include name="testBuscarYAgregarProductos"/>
+          <include name="tearDown"/>
+          <include name="setup"/>
+          <include name="testVerificarProductosEnCarrito"/>
+          <include name="setupTest"/>
+        </methods>
+      </class> <!-- com.demoblaze.test.BusquedaYCarritoTest -->
+      <class name="com.demoblaze.test.LoginTest">
+        <methods>
+          <include name="testLoginUsuarios"/>
+          <include name="tearDown"/>
+          <include name="testRegistrarUsuariosParaLogin"/>
+          <include name="setupTest"/>
+          <include name="setup"/>
+          <include name="testLoginCredencialesInvalidas"/>
+        </methods>
+      </class> <!-- com.demoblaze.test.LoginTest -->
+    </classes>
+  </test> <!-- OpenCart Automation Tests(failed) -->
+</suite> <!-- Failed suite [OpenCart Test Suite] -->

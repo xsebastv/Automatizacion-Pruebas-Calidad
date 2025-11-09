@@ -81,61 +81,132 @@ public class ProductDetailPage extends BasePage {
         try {
             // XPath para buscar grupos de formularios requeridos
             List<WebElement> requiredGroups = driver.findElements(By.xpath("//div[contains(@class, 'form-group') and contains(@class, 'required')]"));
+            
             for (WebElement group : requiredGroups) {
-                // Intentar con <select> - XPath para tag
-                List<WebElement> selects = group.findElements(By.xpath(".//select"));
-                if (!selects.isEmpty()) {
-                    WebElement selectEl = selects.get(0);
-                    try {
-                        Select sel = new Select(selectEl);
-                        if (sel.getOptions().size() > 1) {
-                            sel.selectByIndex(1); // Seleccionar la primera opción válida
-                            continue;
+                try {
+                    // Hacer scroll al grupo para asegurar visibilidad
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", group);
+                    waitHelper.customWait(300);
+                    
+                    // 1. RADIO BUTTONS primero - XPath para type
+                    List<WebElement> radios = group.findElements(By.xpath(".//input[@type='radio']"));
+                    if (!radios.isEmpty()) {
+                        WebElement radio = radios.get(0);
+                        if (!radio.isSelected()) {
+                            try {
+                                // Hacer scroll al elemento específico
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", radio);
+                                waitHelper.customWait(200);
+                                clickElement(radio);
+                                waitHelper.customWait(300);
+                            } catch (Exception e) {
+                                // Si falla el click normal, intentar con JavaScript
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", radio);
+                                waitHelper.customWait(300);
+                            }
                         }
-                    } catch (Exception ignore) { }
-                }
-
-                // Intentar con radio buttons - XPath para type
-                List<WebElement> radios = group.findElements(By.xpath(".//input[@type='radio']"));
-                if (!radios.isEmpty()) {
-                    WebElement radio = radios.get(0);
-                    if (!radio.isSelected()) {
-                        clickElement(radio);
+                        continue;
                     }
-                    continue;
-                }
 
-                // Intentar con checkboxes - XPath para type
-                List<WebElement> checks = group.findElements(By.xpath(".//input[@type='checkbox']"));
-                if (!checks.isEmpty()) {
-                    WebElement chk = checks.get(0);
-                    if (!chk.isSelected()) {
-                        clickElement(chk);
+                    // 2. CHECKBOXES - XPath para type
+                    List<WebElement> checks = group.findElements(By.xpath(".//input[@type='checkbox']"));
+                    if (!checks.isEmpty()) {
+                        WebElement chk = checks.get(0);
+                        if (!chk.isSelected()) {
+                            try {
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", chk);
+                                waitHelper.customWait(200);
+                                clickElement(chk);
+                                waitHelper.customWait(300);
+                            } catch (Exception e) {
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", chk);
+                                waitHelper.customWait(300);
+                            }
+                        }
+                        continue;
                     }
-                    continue;
-                }
 
-                // Fechas u otros inputs de texto requeridos (p. ej., HP LP3065 "Delivery Date")
-                List<WebElement> textInputs = group.findElements(By.xpath(".//input[@type='text']"));
-                if (!textInputs.isEmpty()) {
-                    WebElement txt = textInputs.get(0);
-                    // Si parece una fecha, escribir una fecha válida (hoy + 1)
-                    String val = todayPlusDays(1);
-                    try {
-                        txt.clear();
-                    } catch (Exception ignore) { }
-                    txt.sendKeys(val);
-                    // Cerrar posibles datepickers
-                    try { txt.sendKeys(Keys.TAB); } catch (Exception ignore) { }
-                    continue;
-                }
+                    // 3. SELECT dropdowns - XPath para tag
+                    List<WebElement> selects = group.findElements(By.xpath(".//select"));
+                    if (!selects.isEmpty()) {
+                        WebElement selectEl = selects.get(0);
+                        try {
+                            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", selectEl);
+                            waitHelper.customWait(200);
+                            Select sel = new Select(selectEl);
+                            if (sel.getOptions().size() > 1) {
+                                sel.selectByIndex(1); // Seleccionar la primera opción válida
+                                waitHelper.customWait(300);
+                            }
+                        } catch (Exception ignore) { }
+                        continue;
+                    }
 
-                // Textarea
-                List<WebElement> textareas = group.findElements(By.tagName("textarea"));
-                if (!textareas.isEmpty()) {
-                    WebElement ta = textareas.get(0);
-                    ta.clear();
-                    ta.sendKeys("Test");
+                    // 4. TEXT INPUTS (fechas u otros) - XPath para type
+                    List<WebElement> textInputs = group.findElements(By.xpath(".//input[@type='text']"));
+                    if (!textInputs.isEmpty()) {
+                        WebElement txt = textInputs.get(0);
+                        try {
+                            // Verificar si el campo ya tiene valor
+                            String currentValue = txt.getAttribute("value");
+                            if (currentValue != null && !currentValue.trim().isEmpty()) {
+                                // Si ya tiene valor, no hacer nada
+                                continue;
+                            }
+                            
+                            // Hacer scroll y esperar
+                            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", txt);
+                            waitHelper.customWait(300);
+                            
+                            // Verificar si es visible e interactuable
+                            if (txt.isDisplayed() && txt.isEnabled()) {
+                                String val = todayPlusDays(1);
+                                try {
+                                    txt.clear();
+                                    waitHelper.customWait(200);
+                                } catch (Exception ignore) { }
+                                
+                                // Intentar con sendKeys normal
+                                try {
+                                    txt.sendKeys(val);
+                                    waitHelper.customWait(200);
+                                    // Cerrar posibles datepickers
+                                    try { txt.sendKeys(Keys.TAB); } catch (Exception ignore) { }
+                                } catch (ElementNotInteractableException e) {
+                                    // Si falla, usar JavaScript
+                                    ((JavascriptExecutor) driver).executeScript("arguments[0].value = arguments[1];", txt, val);
+                                }
+                            }
+                        } catch (Exception e) {
+                            // Silenciar error si el campo no es interactuable
+                        }
+                        continue;
+                    }
+
+                    // 5. TEXTAREA
+                    List<WebElement> textareas = group.findElements(By.tagName("textarea"));
+                    if (!textareas.isEmpty()) {
+                        WebElement ta = textareas.get(0);
+                        try {
+                            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", ta);
+                            waitHelper.customWait(300);
+                            
+                            if (ta.isDisplayed() && ta.isEnabled()) {
+                                ta.clear();
+                                waitHelper.customWait(200);
+                                ta.sendKeys("Test textarea content");
+                                waitHelper.customWait(300);
+                            }
+                        } catch (Exception e) {
+                            // Intentar con JavaScript si falla
+                            try {
+                                ((JavascriptExecutor) driver).executeScript("arguments[0].value = 'Test textarea content';", ta);
+                            } catch (Exception ignore) { }
+                        }
+                    }
+                } catch (Exception e) {
+                    // Continuar con el siguiente grupo si hay error en uno
+                    System.out.println("   → Error al procesar grupo de opciones: " + e.getMessage());
                 }
             }
         } catch (Exception e) {
