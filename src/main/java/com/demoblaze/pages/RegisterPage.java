@@ -42,6 +42,12 @@ public class RegisterPage extends BasePage {
 
     @FindBy(xpath = "//div[contains(@class, 'alert-danger')]") // XPath para mensajes de error
     private WebElement errorMessage;
+    
+    @FindBy(linkText = "My Account") // linkText para link directo
+    private WebElement myAccountLink;
+    
+    @FindBy(linkText = "Logout") // linkText para link directo
+    private WebElement logoutLink;
 
     // Constructor
     public RegisterPage(WebDriver driver) {
@@ -50,11 +56,44 @@ public class RegisterPage extends BasePage {
 
     /**
      * Navega a la página de registro y espera a que el formulario esté listo
+     * Si el usuario ya está logueado, OpenCart redirige automáticamente.
+     * En ese caso, intentamos hacer logout y volver al registro.
      */
     public void navigateToRegisterPage() {
         navigateTo("https://opencart.abstracta.us/index.php?route=account/register");
-        // Esperar explícitamente a que el formulario de registro esté visible
-        waitHelper.waitForElementToBeVisible(firstNameInput);
+        waitHelper.customWait(1000);
+        
+        // Verificar si realmente llegamos al formulario de registro
+        try {
+            waitHelper.waitForElementToBeVisible(firstNameInput);
+            System.out.println("✓ Formulario de registro cargado correctamente");
+        } catch (Exception e) {
+            // Si no encontramos el formulario, puede ser que estamos logueados
+            System.out.println("⚠ No se encontró formulario de registro, verificando si hay sesión activa...");
+            
+            try {
+                // Verificar si el link de Logout está presente (indica sesión activa)
+                if (isElementDisplayed(logoutLink)) {
+                    System.out.println("⚠ Sesión activa detectada, haciendo logout...");
+                    logoutAfterRegistration();
+                    
+                    // Intentar navegar de nuevo al registro
+                    System.out.println("   → Reintentando navegación al registro...");
+                    navigateTo("https://opencart.abstracta.us/index.php?route=account/register");
+                    waitHelper.customWait(1000);
+                    waitHelper.waitForElementToBeVisible(firstNameInput);
+                    System.out.println("✓ Formulario de registro cargado tras logout");
+                } else {
+                    // Si no hay sesión pero tampoco formulario, hay otro problema
+                    System.out.println("⚠ No hay sesión activa pero tampoco formulario de registro");
+                    throw e; // Re-lanzar la excepción original
+                }
+            } catch (Exception ex) {
+                System.out.println("✗ Error crítico al intentar acceder al formulario de registro");
+                throw ex;
+            }
+        }
+        
         waitHelper.customWait(500); // Espera adicional para estabilidad
     }
 
@@ -176,6 +215,40 @@ public class RegisterPage extends BasePage {
     }
     
     /**
+     * Cierra sesión del usuario registrado
+     * IMPORTANTE: Debe llamarse después de un registro exitoso para permitir
+     * que el siguiente usuario pueda acceder al formulario de registro
+     */
+    public void logoutAfterRegistration() {
+        try {
+            System.out.println("   → Haciendo logout después del registro...");
+            
+            // Primero hacer clic en My Account
+            waitHelper.waitForElementToBeClickable(myAccountLink);
+            clickElement(myAccountLink);
+            waitHelper.customWait(500);
+            
+            // Luego hacer clic en Logout
+            waitHelper.waitForElementToBeClickable(logoutLink);
+            clickElement(logoutLink);
+            waitHelper.customWait(1500);
+            
+            System.out.println("✓ Logout exitoso - sesión cerrada");
+        } catch (Exception e) {
+            System.out.println("⚠ Error al hacer logout: " + e.getMessage());
+            // Si falla el logout, intentar limpiar cookies como alternativa
+            try {
+                System.out.println("   → Limpiando cookies como alternativa...");
+                driver.manage().deleteAllCookies();
+                waitHelper.customWait(500);
+                System.out.println("✓ Cookies eliminadas");
+            } catch (Exception ex) {
+                System.out.println("⚠ No se pudieron limpiar cookies");
+            }
+        }
+    }
+    
+    /**
      * Realiza el registro completo
      */
     public boolean registerUser(String firstName, String lastName, String email, 
@@ -201,6 +274,8 @@ public class RegisterPage extends BasePage {
                 System.out.println("✓ Registro completado exitosamente");
                 // Hacer clic en Continue para volver a la página principal
                 clickContinueAfterSuccess();
+                // IMPORTANTE: Hacer logout para que el siguiente usuario pueda registrarse
+                logoutAfterRegistration();
                 return true;
             } else if (hasError) {
                 String errorMsg = getErrorMessage();

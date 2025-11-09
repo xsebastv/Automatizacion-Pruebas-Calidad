@@ -1,0 +1,45 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 09/11/2025 02:20:41
+========================================
+
+09/11/2025 02:20:41 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+09/11/2025 02:20:41 - Navegador: Chrome
+09/11/2025 02:20:41 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE REGISTRO DE USUARIOS ==========
+
+09/11/2025 02:20:41 - 
+========================================
+09/11/2025 02:20:41 - Usuarios a registrar: 5
+09/11/2025 02:20:41 - ========================================
+09/11/2025 02:20:41 - 
+--- Usuario 1/5: juan.perez+20251109_022039@test.com ---
+[REGISTRO] 09/11/2025 02:21:24
+  Email: juan.perez+20251109_022039@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Error inesperado: 
+
+09/11/2025 02:21:25 - 
+--- Usuario 2/5: maria.gonzalez+20251109_022039@test.com ---
+[REGISTRO] 09/11/2025 02:22:30
+  Email: maria.gonzalez+20251109_022039@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Error inesperado: 
+
+09/11/2025 02:22:31 - 
+--- Usuario 3/5: carlos.rodriguez+20251109_022039@test.com ---
+[REGISTRO] 09/11/2025 02:23:36
+  Email: carlos.rodriguez+20251109_022039@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Error inesperado: 
+
+09/11/2025 02:23:37 - 
+--- Usuario 4/5: ana.martinez+20251109_022039@test.com ---
+[REGISTRO] 09/11/2025 02:24:42
+  Email: ana.martinez+20251109_022039@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Error inesperado: 
+
+09/11/2025 02:24:43 - 
+--- Usuario 5/5: luis.garcia+20251109_022039@test.com ---
