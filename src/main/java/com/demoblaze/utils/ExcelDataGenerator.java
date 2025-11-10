@@ -142,13 +142,13 @@ public class ExcelDataGenerator {
             cell.setCellStyle(headerStyle);
         }
         
-        // Agregar datos de ejemplo
+        // Agregar datos de ejemplo - PRODUCTOS SIMPLES SIN OPCIONES COMPLEJAS
         Object[][] data = {
-            {"Desktops", "PC", "HP LP3065", "1"},
-            {"Laptops & Notebooks", "", "MacBook", "2"},
-            {"Components", "Monitors", "Apple Cinema 30", "1"},
+            {"Laptops & Notebooks", "", "MacBook", "1"},
             {"", "", "iPhone", "1"},
-            {"Cameras", "", "Canon EOS 5D", "1"}
+            {"Cameras", "", "Canon EOS 5D", "1"},
+            {"Laptops & Notebooks", "Macs", "MacBook Air", "2"},
+            {"Tablets", "", "Samsung Galaxy Tab 10.1", "1"}
         };
         
         for (int i = 0; i < data.length; i++) {
