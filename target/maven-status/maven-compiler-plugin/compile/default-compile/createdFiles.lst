@@ -1,0 +1,15 @@
+com\demoblaze\pages\LoginPage.class
+com\demoblaze\pages\ProductsDetallePage.class
+com\demoblaze\pages\BasePage.class
+com\demoblaze\pages\CartPage.class
+com\demoblaze\pages\HomePage.class
+com\demoblaze\pages\RegisterPage.class
+com\demoblaze\utils\ExcelDataGenerator.class
+com\demoblaze\utils\ExcelReader$1.class
+com\demoblaze\pages\ProductDetailPage.class
+com\demoblaze\utils\ExcelReader.class
+com\demoblaze\pages\ProductPage.class
+com\demoblaze\pages\ProductsPage.class
+com\demoblaze\utils\Constants.class
+com\demoblaze\utils\LogWriter.class
+com\demoblaze\utils\WaitHelper.class
