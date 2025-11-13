@@ -1,0 +1,190 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 12/11/2025 19:27:42
+========================================
+
+12/11/2025 19:27:42 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+12/11/2025 19:27:42 - Navegador: Chrome
+12/11/2025 19:27:42 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE REGISTRO DE USUARIOS ==========
+
+12/11/2025 19:27:42 - 
+========================================
+12/11/2025 19:27:42 - Usuarios a registrar: 5
+12/11/2025 19:27:42 - ========================================
+12/11/2025 19:27:42 - 
+--- Usuario 1/5: juan.perez+20251112_192740@test.com ---
+[REGISTRO] 12/11/2025 19:28:28
+  Email: juan.perez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 19:28:30 - 
+--- Usuario 2/5: maria.gonzalez+20251112_192740@test.com ---
+[REGISTRO] 12/11/2025 19:29:15
+  Email: maria.gonzalez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 19:29:16 - 
+--- Usuario 3/5: carlos.rodriguez+20251112_192740@test.com ---
+[REGISTRO] 12/11/2025 19:30:01
+  Email: carlos.rodriguez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 19:30:02 - 
+--- Usuario 4/5: ana.martinez+20251112_192740@test.com ---
+[REGISTRO] 12/11/2025 19:30:47
+  Email: ana.martinez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 19:30:48 - 
+--- Usuario 5/5: luis.garcia+20251112_192740@test.com ---
+[REGISTRO] 12/11/2025 19:31:33
+  Email: luis.garcia+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 19:31:35 - 
+========================================
+12/11/2025 19:31:35 - RESUMEN DE REGISTRO DE USUARIOS
+12/11/2025 19:31:35 - Total usuarios: 5
+12/11/2025 19:31:35 - Registros exitosos: 5
+12/11/2025 19:31:35 - Registros fallidos: 0
+12/11/2025 19:31:35 - ========================================
+
+========== PRUEBA DE INICIO DE SESIÓN ==========
+
+12/11/2025 19:31:35 - 
+=== REGISTRANDO USUARIOS PARA PRUEBAS DE LOGIN ===
+12/11/2025 19:31:35 - 
+--- Registrando usuario: juan.perez+20251112_192740@test.com ---
+12/11/2025 19:32:17 - ⚠ Usuario ya existe o error en registro: juan.perez+20251112_192740@test.com
+12/11/2025 19:32:18 - 
+--- Registrando usuario: maria.gonzalez+20251112_192740@test.com ---
+12/11/2025 19:33:01 - ⚠ Usuario ya existe o error en registro: maria.gonzalez+20251112_192740@test.com
+12/11/2025 19:33:02 - 
+=== INICIANDO PRUEBAS DE LOGIN ===
+12/11/2025 19:33:02 - Credenciales a probar: 5
+12/11/2025 19:33:02 - 
+--- Probando login: juan.perez+20251112_192740@test.com ---
+[LOGIN] 12/11/2025 19:33:28
+  Email: juan.perez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Login exitoso como esperado
+
+12/11/2025 19:33:49 - 
+--- Probando login: maria.gonzalez+20251112_192740@test.com ---
+[LOGIN] 12/11/2025 19:34:16
+  Email: maria.gonzalez+20251112_192740@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Login exitoso como esperado
+
+12/11/2025 19:34:36 - 
+--- Probando login: usuario.invalido@test.com ---
+[LOGIN] 12/11/2025 19:34:52
+  Email: usuario.invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+12/11/2025 19:34:52 - 
+--- Probando login:  ---
+[LOGIN] 12/11/2025 19:35:08
+  Email: 
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+12/11/2025 19:35:09 - 
+--- Probando login: test@test.com ---
+[LOGIN] 12/11/2025 19:35:25
+  Email: test@test.com
+  Estado: FALLIDO
+  Mensaje: Falló como esperado: Warning: No match for E-Mail Address and/or Password.
+
+12/11/2025 19:35:25 - 
+--- Validando mensaje de error con credenciales inválidas ---
+[LOGIN] 12/11/2025 19:35:29
+  Email: usuario_invalido@test.com
+  Estado: FALLIDO
+  Mensaje: Mensaje de error mostrado: Warning: No match for E-Mail Address and/or Password.
+
+
+========== PRUEBA DE BÚSQUEDA Y AGREGADO AL CARRITO ==========
+
+12/11/2025 19:35:29 - Productos a buscar y agregar: 5
+12/11/2025 19:35:29 - 
+--- Procesando producto: MacBook ---
+12/11/2025 19:35:35 - Producto encontrado: MacBook
+[PRODUCTO AGREGADO] 12/11/2025 19:36:01
+  Categoría: Laptops & Notebooks
+  Producto: MacBook
+  Cantidad: 1
+  Estado: EXITOSO
+
+12/11/2025 19:36:03 - 
+--- Procesando producto: iPhone ---
+12/11/2025 19:36:08 - Producto encontrado: iPhone
+[PRODUCTO AGREGADO] 12/11/2025 19:36:13
+  Categoría: 
+  Producto: iPhone
+  Cantidad: 1
+  Estado: EXITOSO
+
+12/11/2025 19:36:14 - 
+--- Procesando producto: Canon EOS 5D ---
+12/11/2025 19:36:30 - Producto encontrado: Canon EOS 5D
+[PRODUCTO AGREGADO] 12/11/2025 19:36:56
+  Categoría: Cameras
+  Producto: Canon EOS 5D
+  Cantidad: 1
+  Estado: EXITOSO
+
+12/11/2025 19:36:57 - 
+--- Procesando producto: MacBook Air ---
+12/11/2025 19:37:04 - Producto encontrado: MacBook Air
+[PRODUCTO AGREGADO] 12/11/2025 19:37:10
+  Categoría: Laptops & Notebooks
+  Subcategoría: Macs
+  Producto: MacBook Air
+  Cantidad: 2
+  Estado: EXITOSO
+
+12/11/2025 19:37:11 - 
+--- Procesando producto: Samsung Galaxy Tab 10.1 ---
+12/11/2025 19:37:17 - Producto encontrado: Samsung Galaxy Tab 10.1
+[PRODUCTO AGREGADO] 12/11/2025 19:37:23
+  Categoría: Tablets
+  Producto: Samsung Galaxy Tab 10.1
+  Cantidad: 1
+  Estado: EXITOSO
+
+12/11/2025 19:37:24 - 
+=== RESUMEN ===
+12/11/2025 19:37:24 - Total productos procesados: 5
+12/11/2025 19:37:24 - Total productos agregados al carrito: 5
+
+========== VERIFICACIÓN DE PRODUCTOS EN EL CARRITO ==========
+
+12/11/2025 19:37:30 - Productos en el carrito: 5
+12/11/2025 19:37:30 -   - Canon EOS 5D
+12/11/2025 19:37:30 -   - iPhone
+12/11/2025 19:37:30 -   - MacBook
+12/11/2025 19:37:30 -   - MacBook Air
+12/11/2025 19:37:30 -   - Samsung Galaxy Tab 10.1
+12/11/2025 19:37:31 - ✓ Producto verificado: MacBook (Cantidad: 1)
+12/11/2025 19:37:33 - ✓ Producto verificado: iPhone (Cantidad: 1)
+12/11/2025 19:37:34 - ✓ Producto verificado: Canon EOS 5D (Cantidad: 1)
+12/11/2025 19:37:35 - ✓ Producto verificado: MacBook Air (Cantidad: 2)
+12/11/2025 19:37:37 - ✓ Producto verificado: Samsung Galaxy Tab 10.1 (Cantidad: 1)
+[VERIFICACIÓN CARRITO] 12/11/2025 19:37:37
+  Productos Esperados: 5
+  Productos Encontrados: 5
+  Estado: EXITOSO
+
+12/11/2025 19:37:37 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+12/11/2025 19:37:37 - Ruta del log: src\main\resources\logs\TestLog_20251112_192742.txt
+
+========== FIN DEL REPORTE ==========

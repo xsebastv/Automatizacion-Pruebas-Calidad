@@ -1,0 +1,93 @@
+========================================
+REPORTE DE EJECUCIÓN DE PRUEBAS - OpenCart
+Fecha: 12/11/2025 20:15:38
+========================================
+
+12/11/2025 20:15:38 - === INICIO DE EJECUCIÓN DE PRUEBAS ===
+12/11/2025 20:15:38 - Navegador: Chrome
+12/11/2025 20:15:38 - URL Base: https://opencart.abstracta.us/
+
+========== PRUEBA DE REGISTRO DE USUARIOS ==========
+
+12/11/2025 20:15:39 - 
+========================================
+12/11/2025 20:15:39 - Usuarios a registrar: 5
+12/11/2025 20:15:39 - ========================================
+12/11/2025 20:15:39 - 
+--- Usuario 1/5: juan.perez+20251112_201536@test.com ---
+[REGISTRO] 12/11/2025 20:15:53
+  Email: juan.perez+20251112_201536@test.com
+  Estado: EXITOSO
+  Mensaje: ✓ Registro exitoso: 
+
+12/11/2025 20:15:55 - 
+--- Usuario 2/5: maria.gonzalez+20251112_201536@test.com ---
+[REGISTRO] 12/11/2025 20:15:55
+  Email: maria.gonzalez+20251112_201536@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=142.0.7444.135)
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [a93c47611ad2ffb66722b2caa2e4ca69, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56360}, goog:processID: 42088, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:56360/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a93c47611ad2ffb66722b2caa2e4ca69
+
+12/11/2025 20:15:55 - 
+--- Usuario 3/5: carlos.rodriguez+20251112_201536@test.com ---
+[REGISTRO] 12/11/2025 20:15:55
+  Email: carlos.rodriguez+20251112_201536@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=142.0.7444.135)
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [a93c47611ad2ffb66722b2caa2e4ca69, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56360}, goog:processID: 42088, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:56360/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a93c47611ad2ffb66722b2caa2e4ca69
+
+12/11/2025 20:15:55 - 
+--- Usuario 4/5: ana.martinez+20251112_201536@test.com ---
+[REGISTRO] 12/11/2025 20:15:55
+  Email: ana.martinez+20251112_201536@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=142.0.7444.135)
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [a93c47611ad2ffb66722b2caa2e4ca69, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56360}, goog:processID: 42088, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:56360/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a93c47611ad2ffb66722b2caa2e4ca69
+
+12/11/2025 20:15:55 - 
+--- Usuario 5/5: luis.garcia+20251112_201536@test.com ---
+[REGISTRO] 12/11/2025 20:15:55
+  Email: luis.garcia+20251112_201536@test.com
+  Estado: FALLIDO
+  Mensaje: ✗ Excepción: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=142.0.7444.135)
+Build info: version: '4.35.0', revision: '1c58e5028b'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [a93c47611ad2ffb66722b2caa2e4ca69, get {url=https://opencart.abstracta.us/index.php?route=account/register}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.135, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\sebas\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:56360}, goog:processID: 42088, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:56360/devtoo..., se:cdpVersion: 142.0.7444.135, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: a93c47611ad2ffb66722b2caa2e4ca69
+
+12/11/2025 20:15:55 - 
+========================================
+12/11/2025 20:15:55 - RESUMEN DE REGISTRO DE USUARIOS
+12/11/2025 20:15:55 - Total usuarios: 5
+12/11/2025 20:15:55 - Registros exitosos: 1
+12/11/2025 20:15:55 - Registros fallidos: 4
+12/11/2025 20:15:55 - ========================================
+12/11/2025 20:15:55 - === FIN DE EJECUCIÓN DE PRUEBAS ===
+12/11/2025 20:15:55 - Ruta del log: src\main\resources\logs\TestLog_20251112_201538.txt
+
+========== FIN DEL REPORTE ==========

@@ -54,7 +54,7 @@ public class RegistroUsuarioTest extends BaseTest {
             try {
                 // Navegar a la página de registro
                 registerPage.navigateToRegisterPage();
-                Thread.sleep(500);
+                Thread.sleep(300);
                 
                 // Completar el formulario y enviar
                 boolean registroExitoso = registerPage.registerUser(
@@ -86,7 +86,7 @@ public class RegistroUsuarioTest extends BaseTest {
                 }
                 
                 // Esperar entre registros
-                Thread.sleep(1500);
+                Thread.sleep(800);
                 
             } catch (Exception e) {
                 logWriter.logRegistro(email, false, "✗ Excepción: " + e.getMessage());
