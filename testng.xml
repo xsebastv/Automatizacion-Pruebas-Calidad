@@ -11,6 +11,9 @@
             
             <!-- Prueba 3: Búsqueda y Agregado al Carrito -->
             <class name="com.demoblaze.test.BusquedaYCarritoTest"/>
+
+            <!-- Prueba 4: Compra E2E -->
+            <class name="com.demoblaze.test.ComprarTest"/>
         </classes>
     </test>
 </suite>

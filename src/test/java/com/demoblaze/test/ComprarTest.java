@@ -1,212 +1,132 @@
 package com.demoblaze.test;
 
 import com.demoblaze.pages.*;
-import com.demoblaze.utils.Constants;
-import com.demoblaze.utils.LogWriter;
+import com.demoblaze.utils.ExcelReader;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Test completo del flujo de compra en OpenCart
- * 1. Registro de usuario
- * 2. Login
- * 3. Búsqueda y agregado de productos al carrito
- * 4. Proceso de checkout
- * 5. Confirmación de orden
+ * ComprarTest - Flujo E2E de compra en OpenCart
+ * 1) (Idempotente) Registra/usa un usuario del Excel
+ * 2) Hace login
+ * 3) Agrega productos con cantidades específicas
+ * 4) Verifica carrito
+ * 5) Completa el checkout
  */
-public class ComprarTest extends BaseTest{
+public class ComprarTest extends BaseTest {
 
-    @Test
-    public void ComprarProductos(){
-        // Timestamp para datos únicos
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        LogWriter logger = new LogWriter();
-        
-        // Datos del usuario
+    private LoginPage loginPage;
+    private RegisterPage registerPage;
+    private ProductPage productPage;
+    private ProductDetailPage productDetailPage;
+    private CartPage cartPage;
+    private CheckoutPage checkoutPage;
+    private ExcelReader excelReader;
+
+    private String email;
+    private String password;
+
+    @BeforeClass
+    public void setupTest() {
+        loginPage = new LoginPage(driver);
+        registerPage = new RegisterPage(driver);
+        productPage = new ProductPage(driver);
+        productDetailPage = new ProductDetailPage(driver);
+        cartPage = new CartPage(driver);
+        checkoutPage = new CheckoutPage(driver);
+        excelReader = new ExcelReader("src/main/resources/testData.xlsx");
+
+        logWriter.logSection("PRUEBA E2E: COMPRA COMPLETA");
+
+        // Tomar un usuario del Excel (tercero si existe, para evitar colisión con LoginTest)
+        List<Map<String, String>> usuarios = excelReader.readUsuariosRegistro();
+        Map<String, String> user = usuarios.size() >= 3 ? usuarios.get(2) : usuarios.get(0);
+        email = user.get("E-Mail");
+        password = user.get("Password");
+    }
+
+    @Test(priority = 1, description = "Registrar (si es necesario) y hacer login")
+    public void testRegistroYLogin() throws InterruptedException {
+        // Asegurar no hay sesión activa
+        if (loginPage.isUserLoggedIn()) {
+            logWriter.logMessage("Sesión activa detectada. Realizando logout previo...");
+            loginPage.logout();
+            Thread.sleep(1500);
+        }
+
+        // Intentar registrar al usuario (idempotente: si ya existe, continúa)
+        try {
+            registerPage.navigateToRegisterPage();
+            boolean registrado = registerPage.registerUser(
+                "Comprador", "E2E", email, "3000000000", password
+            );
+            logWriter.logMessage(registrado ? "Usuario registrado/usable: " + email
+                                            : "Usuario ya existente o no registrado, se intentará login: " + email);
+        } catch (Exception ignored) {
+            logWriter.logMessage("Continuando sin registrar (posible usuario ya existente): " + email);
+        }
+
+        // Login
+        loginPage.navigateToLoginPage();
+        boolean loginOk = loginPage.login(email, password);
+        logWriter.logMessage(loginOk ? "✓ Login exitoso: " + email : "✗ Login fallido: " + email);
+        Assert.assertTrue(loginOk, "El login debe ser exitoso para continuar la compra");
+    }
+
+    @Test(priority = 2, description = "Agregar productos al carrito (2× iMac, 3× MacBook)", dependsOnMethods = "testRegistroYLogin")
+    public void testAgregarProductos() throws InterruptedException {
+        // Producto 1: iMac ×2
+        productPage.navigateToHomePage();
+        productPage.searchByCategory("Desktops", "Mac"); // navegación tentativa
+        productPage.searchProduct("iMac");
+        productPage.clickOnProduct("iMac");
+        boolean added1 = productDetailPage.addToCartWithQuantity("2");
+        logWriter.logProductoAgregado("Desktops", "Mac", "iMac", "2", added1);
+        Assert.assertTrue(added1, "Debe agregarse iMac ×2 al carrito");
+
+        // Producto 2: MacBook ×3
+        productPage.navigateToHomePage();
+        productPage.searchByCategory("Laptops & Notebooks", "");
+        productPage.searchProduct("MacBook");
+        productPage.clickOnProduct("MacBook");
+        boolean added2 = productDetailPage.addToCartWithQuantity("3");
+        logWriter.logProductoAgregado("Laptops & Notebooks", "", "MacBook", "3", added2);
+        Assert.assertTrue(added2, "Debe agregarse MacBook ×3 al carrito");
+
+        // Verificación en carrito
+        cartPage.navigateToCart();
+        Thread.sleep(1500);
+        Assert.assertTrue(cartPage.isProductInCart("iMac"), "iMac debe estar en el carrito");
+        Assert.assertTrue(cartPage.isProductInCart("MacBook"), "MacBook debe estar en el carrito");
+
+        String q1 = cartPage.getProductQuantity("iMac");
+        String q2 = cartPage.getProductQuantity("MacBook");
+        logWriter.logMessage("Cantidades en carrito → iMac: " + q1 + ", MacBook: " + q2);
+    }
+
+    @Test(priority = 3, description = "Checkout y confirmación de orden", dependsOnMethods = "testAgregarProductos")
+    public void testCheckout() {
+        // Asumimos que estamos logueados y con carrito lleno
+        cartPage.navigateToCart();
+
+        // Datos de facturación (sencillos, válidos para demo)
         String firstName = "Comprador";
-        String lastName = "Test";
-        String email = "comprador+" + timestamp + "@test.com";
-        String telephone = "3001234567";
-        String password = "Test123456";
-        String address = "Calle 123 #45-67";
+        String lastName = "E2E";
+        String address = "Calle 5 #10-20";
         String city = "Cali";
         String postcode = "760001";
-        
-        System.out.println("\n========================================");
-        System.out.println("=== PRUEBA DE COMPRA COMPLETA ===");
-        System.out.println("========================================");
-        System.out.println("Email: " + email);
-        System.out.println("========================================\n");
+        String country = "Colombia";           // País visible en dropdown
+        String zone = "Valle del Cauca";       // Región específica
 
-        // Inicializar páginas
-        HomePage homePage = new HomePage(driver);
-        RegisterPage registerPage = new RegisterPage(driver);
-        LoginPage loginPage = new LoginPage(driver);
-        ProductsPage productsPage = new ProductsPage(driver);
-        ProductsDetallePage productsDetallePage = new ProductsDetallePage(driver);
-        ProductDetailPage productDetailPage = new ProductDetailPage(driver);
-        CartPage cartPage = new CartPage(driver);
-        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        boolean ok = checkoutPage.completeCheckout(
+            firstName, lastName, address, city, postcode, country, zone
+        );
 
-        try {
-            logger.logMessage("=== INICIO PRUEBA DE COMPRA COMPLETA ===");
-            logger.logMessage("Email de prueba: " + email);
-            logger.logMessage("");
-            
-            // ==================== PASO 1: REGISTRO ====================
-            System.out.println("=== PASO 1: REGISTRO DE USUARIO ===");
-            logger.logMessage("=== PASO 1: REGISTRO DE USUARIO ===");
-            
-            homePage.navigateTo(Constants.BASE_URL);
-            System.out.println("✓ Navegando a la página principal");
-            logger.logMessage("✓ Navegando a la página principal");
-            
-            registerPage.navigateToRegisterPage();
-            System.out.println("✓ Formulario de registro cargado");
-            logger.logMessage("✓ Formulario de registro cargado");
-            
-            boolean registroExitoso = registerPage.registerUser(
-                firstName, lastName, email, telephone, password
-            );
-            
-            if (registroExitoso) {
-                System.out.println("✓ Usuario registrado exitosamente");
-                logger.logMessage("✓ Usuario registrado exitosamente: " + email);
-                registerPage.logoutAfterRegistration();
-                System.out.println("✓ Logout después del registro completado\n");
-                logger.logMessage("✓ Logout después del registro completado");
-            } else {
-                System.out.println("⚠ Registro completado (sin mensaje de confirmación)\n");
-                logger.logMessage("⚠ Registro completado (sin mensaje de confirmación)");
-            }
-            logger.logMessage("");
-
-            // ==================== PASO 2: LOGIN ====================
-            System.out.println("=== PASO 2: LOGIN ===");
-            logger.logMessage("=== PASO 2: LOGIN ===");
-            
-            loginPage.navigateToLoginPage();
-            System.out.println("✓ Página de login cargada");
-            logger.logMessage("✓ Página de login cargada");
-            
-            boolean loginExitoso = loginPage.login(email, password);
-            Assert.assertTrue(loginExitoso, "El login debe ser exitoso");
-            System.out.println("✓ Login exitoso - Sesión iniciada\n");
-            logger.logMessage("✓ Login exitoso - Sesión iniciada con: " + email);
-            logger.logMessage("");
-
-            // ==================== PASO 3: AGREGAR PRODUCTOS ====================
-            System.out.println("=== PASO 3: AGREGAR PRODUCTOS AL CARRITO ===");
-            logger.logMessage("=== PASO 3: AGREGAR PRODUCTOS AL CARRITO ===");
-            
-            // Producto 1: iMac
-            System.out.println("\n→ Producto 1: iMac");
-            logger.logMessage("→ Producto 1: iMac");
-            homePage.navigateTo(Constants.BASE_URL);
-            homePage.selectCategory("Desktops");
-            homePage.selectSubCategory("Mac");
-            productsPage.selectProduct("iMac");
-            productsDetallePage.agregarCarrito("2");
-            System.out.println("   ✓ iMac agregado al carrito (cantidad: 2)");
-            logger.logMessage("   ✓ iMac agregado al carrito (cantidad: 2)");
-
-            // Producto 2: MacBook
-            System.out.println("\n→ Producto 2: MacBook");
-            logger.logMessage("→ Producto 2: MacBook");
-            homePage.navigateTo(Constants.BASE_URL);
-            homePage.selectCategory("Laptops & Notebooks");
-            productsPage.selectProduct("MacBook");
-            productDetailPage.addToCartWithQuantity("3");
-            System.out.println("   ✓ MacBook agregado al carrito (cantidad: 3)");
-            logger.logMessage("   ✓ MacBook agregado al carrito (cantidad: 3)");
-            logger.logMessage("");
-
-            // ==================== PASO 4: VERIFICAR CARRITO ====================
-            System.out.println("\n=== PASO 4: VERIFICACIÓN DEL CARRITO ===");
-            logger.logMessage("=== PASO 4: VERIFICACIÓN DEL CARRITO ===");
-            cartPage.navigateToCart();
-            System.out.println("✓ Navegando al carrito...");
-            logger.logMessage("✓ Navegando al carrito...");
-            
-            int itemsEnCarrito = cartPage.getCartItemCount();
-            System.out.println("   Productos en carrito: " + itemsEnCarrito);
-            logger.logMessage("   Productos en carrito: " + itemsEnCarrito);
-            Assert.assertTrue(itemsEnCarrito > 0, "El carrito debe contener productos");
-            
-            // Verificar productos específicos
-            boolean imacEnCarrito = cartPage.isProductInCart("iMac");
-            boolean macbookEnCarrito = cartPage.isProductInCart("MacBook");
-            
-            System.out.println("   → iMac (x2) en carrito: " + (imacEnCarrito ? "✓" : "✗"));
-            logger.logMessage("   → iMac (x2) en carrito: " + (imacEnCarrito ? "✓" : "✗"));
-            System.out.println("   → MacBook (x3) en carrito: " + (macbookEnCarrito ? "✓" : "✗"));
-            logger.logMessage("   → MacBook (x3) en carrito: " + (macbookEnCarrito ? "✓" : "✗"));
-            logger.logMessage("");
-
-            // ==================== PASO 5: PROCESO DE CHECKOUT ====================
-            System.out.println("\n=== PASO 5: PROCESO DE CHECKOUT ===");
-            logger.logMessage("=== PASO 5: PROCESO DE CHECKOUT ===");
-            logger.logMessage("→ Iniciando proceso de checkout...");
-            boolean checkoutExitoso = checkoutPage.completeCheckout(
-                firstName, lastName, address, city, postcode, "Colombia", "Cali"
-            );
-            logger.logMessage("✓ Proceso de checkout completado");
-            logger.logMessage("");
-
-            // ==================== PASO 6: VERIFICACIÓN FINAL ====================
-            System.out.println("\n=== PASO 6: VERIFICACIÓN FINAL ===");
-            logger.logMessage("=== PASO 6: VERIFICACIÓN FINAL ===");
-            if (checkoutExitoso) {
-                System.out.println("✓ Orden procesada exitosamente");
-                logger.logMessage("✓ Orden procesada exitosamente");
-                String orderNumber = checkoutPage.getOrderNumber();
-                System.out.println("   Número de orden: " + orderNumber);
-                logger.logMessage("   Número de orden: " + orderNumber);
-                Assert.assertTrue(checkoutExitoso, "La compra debe completarse exitosamente");
-            } else {
-                System.out.println("⚠ Checkout completado (verificar manualmente el resultado)");
-                logger.logMessage("⚠ Checkout completado (verificar manualmente el resultado)");
-            }
-            logger.logMessage("");
-
-            // ==================== PASO 7: LOGOUT ====================
-            System.out.println("\n=== PASO 7: CERRAR SESIÓN ===");
-            logger.logMessage("=== PASO 7: CERRAR SESIÓN ===");
-            loginPage.logout();
-            System.out.println("✓ Sesión cerrada correctamente");
-            logger.logMessage("✓ Sesión cerrada correctamente");
-            logger.logMessage("");
-
-            // ==================== RESUMEN ====================
-            System.out.println("\n========================================");
-            System.out.println("=== RESUMEN DE LA PRUEBA ===");
-            System.out.println("========================================");
-            logger.logMessage("========================================");
-            logger.logMessage("=== RESUMEN DE LA PRUEBA ===");
-            logger.logMessage("========================================");
-            System.out.println("✓ Registro: EXITOSO");
-            logger.logMessage("✓ Registro: EXITOSO");
-            System.out.println("✓ Login: EXITOSO");
-            logger.logMessage("✓ Login: EXITOSO");
-            System.out.println("✓ Productos agregados: " + itemsEnCarrito);
-            logger.logMessage("✓ Productos agregados: " + itemsEnCarrito);
-            System.out.println("✓ Checkout: " + (checkoutExitoso ? "EXITOSO" : "COMPLETADO"));
-            logger.logMessage("✓ Checkout: " + (checkoutExitoso ? "EXITOSO" : "COMPLETADO"));
-            System.out.println("✓ Logout: EXITOSO");
-            logger.logMessage("✓ Logout: EXITOSO");
-            System.out.println("========================================\n");
-            logger.logMessage("========================================");
-            logger.logMessage("");
-
-        } catch (Exception e) {
-            System.err.println("\n✗ ERROR EN LA PRUEBA DE COMPRA:");
-            System.err.println("   " + e.getMessage());
-            logger.logMessage("✗ ERROR EN LA PRUEBA DE COMPRA: " + e.getMessage());
-            e.printStackTrace();
-            Assert.fail("Error durante el proceso de compra: " + e.getMessage());
-        }
+        logWriter.logMessage(ok ? "✓ Compra confirmada exitosamente" : "✗ La compra no pudo completarse");
+        Assert.assertTrue(ok, "La orden debe ser confirmada correctamente");
     }
 }

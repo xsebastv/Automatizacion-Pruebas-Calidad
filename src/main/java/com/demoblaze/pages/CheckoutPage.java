@@ -117,36 +117,66 @@ public class CheckoutPage extends BasePage {
             Select countryDropdown = new Select(countrySelect);
             countryDropdown.selectByVisibleText(country);
             waitHelper.customWait(1500); // Esperar más tiempo a que carguen las zonas
-            
-            // Seleccionar zona/región - seleccionar la primera opción disponible
-            System.out.println("      • Seleccionando región/estado...");
+
+            // Seleccionar zona/región
+            System.out.println("      • Región/Estado deseado: " + zone);
+            boolean zoneSelected = false;
             try {
-                JavascriptExecutor js = (JavascriptExecutor) driver;
-                String script = 
-                    "var select = document.getElementById('input-payment-zone');" +
-                    "if (select && select.options.length > 1) {" +
-                    "  select.selectedIndex = 1;" + // Seleccionar la primera opción real (índice 1)
-                    "  select.dispatchEvent(new Event('change'));" +
-                    "  return 'Región seleccionada: ' + select.options[1].text;" +
-                    "}" +
-                    "return 'Select no disponible o sin opciones';";
-                
-                String result = (String) js.executeScript(script);
-                System.out.println("      ✓ " + result);
-                waitHelper.customWait(500);
-            } catch (Exception e) {
-                System.out.println("      ⚠ Error al seleccionar región con JS, intentando método tradicional...");
-                try {
-                    Select zoneDropdown = new Select(zoneSelect);
-                    if (zoneDropdown.getOptions().size() > 1) {
-                        zoneDropdown.selectByIndex(1); // Seleccionar la primera opción real
-                        System.out.println("      ✓ Región seleccionada con método tradicional: " + 
-                                         zoneDropdown.getFirstSelectedOption().getText());
+                // Intento 1: Selección por texto visible exacto (case-insensitive)
+                Select zoneDropdown = new Select(zoneSelect);
+                for (WebElement opt : zoneDropdown.getOptions()) {
+                    if (zone != null && !zone.trim().isEmpty() && opt.getText().trim().equalsIgnoreCase(zone.trim())) {
+                        zoneDropdown.selectByVisibleText(opt.getText().trim());
+                        zoneSelected = true;
+                        System.out.println("      ✓ Región seleccionada por nombre: " + opt.getText());
+                        break;
                     }
-                } catch (Exception ex) {
-                    System.out.println("      ⚠ No se pudo seleccionar región: " + ex.getMessage());
+                }
+
+                // Intento 2: Coincidencia parcial (contains)
+                if (!zoneSelected && zone != null && !zone.trim().isEmpty()) {
+                    for (WebElement opt : zoneDropdown.getOptions()) {
+                        if (opt.getText().toLowerCase().contains(zone.trim().toLowerCase())) {
+                            zoneDropdown.selectByVisibleText(opt.getText().trim());
+                            zoneSelected = true;
+                            System.out.println("      ✓ Región seleccionada por coincidencia: " + opt.getText());
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception ignore) { /* seguir con fallback */ }
+
+            if (!zoneSelected) {
+                // Fallback 1: JavaScript a la primera opción real
+                try {
+                    JavascriptExecutor js = (JavascriptExecutor) driver;
+                    String script =
+                        "var select = document.getElementById('input-payment-zone');" +
+                        "if (select && select.options.length > 1) {" +
+                        "  select.selectedIndex = 1;" +
+                        "  select.dispatchEvent(new Event('change'));" +
+                        "  return 'Región seleccionada: ' + select.options[1].text;" +
+                        "}" +
+                        "return 'Select no disponible o sin opciones';";
+                    String result = (String) js.executeScript(script);
+                    zoneSelected = true;
+                    System.out.println("      ✓ " + result);
+                } catch (Exception e) {
+                    System.out.println("      ⚠ Error al seleccionar región con JS, intentando método tradicional...");
+                    try {
+                        Select zoneDropdown = new Select(zoneSelect);
+                        if (zoneDropdown.getOptions().size() > 1) {
+                            zoneDropdown.selectByIndex(1);
+                            zoneSelected = true;
+                            System.out.println("      ✓ Región seleccionada con método tradicional: " +
+                                    zoneDropdown.getFirstSelectedOption().getText());
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("      ⚠ No se pudo seleccionar región: " + ex.getMessage());
+                    }
                 }
             }
+            waitHelper.customWait(500);
             
             System.out.println("   ✓ Datos de facturación completados");
         } catch (Exception e) {
